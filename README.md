@@ -24,24 +24,38 @@ client/
 │                         
 ├── components/
 │   ├── auth/
-│   │   ├── auth-signin-form.tsx
-│   │   ├── auth-signup-form.tsx
+│   │   ├── auth-detail-account-more.tsx
+│   │   ├── auth-detail-account.tsx
+│   │   ├── auth-detail-expire.tsx
+│   │   ├── auth-detail-profile.tsx
+│   │   ├── auth-detail.tsx
 │   │   ├── auth-google-provider.tsx
-│   │   └── auth-detail-*.tsx
+│   │   ├── auth-signin-form-input.tsx
+│   │   ├── auth-signin-form.tsx
+│   │   ├── auth-signup-form-input.tsx
+│   │   └── auth-signup-form.tsx
 │   │
 │   ├── profile/
+│   │  ├── profile-account-submit.tsx
 │   │  ├── profile-account.tsx
+│   │  ├── profile-detail-calendar.tsx
+│   │  ├── profile-detail-input.tsx
+│   │  ├── profile-detail-radio.tsx
+│   │  ├── profile-detail-submit.tsx
+│   │  ├── profile-detail-textarea.tsx
 │   │  ├── profile-detail.tsx
 │   │  ├── profile-image.tsx
-│   │  ├── profile-detail-input.tsx
-│   │  ├── profile-detail-calendar.tsx
-│   │  └── profile-detail-submit.tsx
+│   │  ├── profile-table-body.tsx
+│   │  ├── profile-table-nobody.tsx
+│   │  ├── profile-table-pagination.tsx
+│   │  └── profile-table.tsx
 │   │
 │   ├── sidebar/
-│   │  ├── sidebar-account.tsx 
-│   │  ├── sidebar-header.tsx 
-│   │  ├── sidebar-left-menu.tsx 
-│   │  ├── sidebar-left.tsx 
+│   │  ├── app-sidebar.tsx
+│   │  ├── sidebar-account.tsx
+│   │  ├── sidebar-header.tsx
+│   │  ├── sidebar-left-menu.tsx
+│   │  ├── sidebar-left.tsx
 │   │  └── sidebar-right.tsx
 │   │
 │   ├── theme/
@@ -51,10 +65,10 @@ client/
 │   ├── ui/
 │   │  └── shadcn ui ...
 │   │
-│   ├── calendars.tsx 
-│   ├── date-picker.tsx 
-│   ├── empty-page.tsx 
-│   └── team-switcher.tsx
+│   ├── auth-provider.tsx
+│   ├── progress-page.tsx
+│   ├── refresh-page.tsx
+│   └── unauthorized-page.tsx
 │   
 ├── lib/
 │   ├── use-client/
@@ -63,16 +77,18 @@ client/
 │   │   ├── axios.user.ts
 │   │   │
 │   │   ├── hook/
-│   │   │   └── use-mobile.ts
+│   │   │   ├── use-mobile.ts
+│   │   │   ├── use-auth.ts
+│   │   │   ├── use-profile.ts
+│   │   │   └── use-user.ts
+│   │   │
 │   │   └── store/
 │   │       ├── store-auth.ts
 │   │       └── store-profile.ts
 │   │   
 │   ├── use-server/
-│   │   ├── fetch-auth.ts
-│   │   ├── fetch-user.ts
-│   │   ├── fetch-profile.ts
-│   │   └── fetch-cookie.ts
+│   │   ├── fetch-account.ts
+│   │   └── fetch-server.ts
 │   │   
 │   ├── config.ts
 │   ├── routes.ts
