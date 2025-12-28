@@ -1,0 +1,9 @@
+app:
+  port: ${APP_PORT}
+  secret: ${APP_SECRET}
+
+db:
+  database: ${DB_DATABASE}
+
+service:
+  profile: ${SERVICE_PROFILE}

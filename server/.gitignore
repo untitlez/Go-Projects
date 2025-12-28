@@ -1,0 +1,12 @@
+# yaml
+docker-compose.yml
+
+# production
+/build
+
+# env files
+.env
+
+# Docker
+.dockerignore
+

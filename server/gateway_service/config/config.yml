@@ -1,0 +1,12 @@
+app:
+  port: ${APP_PORT}
+  domain: ${APP_DOMAIN}
+  development: ${APP_DEVELOPMENT}
+  secret: ${APP_SECRET}
+
+db:
+  database: ${DB_DATABASE}
+
+service:
+  user: ${SERVICE_USER}
+  profile: ${SERVICE_PROFILE}
