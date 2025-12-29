@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronRight, Lock } from "lucide-react";
+import { ChevronRight, Lock, LucideIcon } from "lucide-react";
 
-import { SidebarLeftProps } from "./sidebar-left";
 import {
   Collapsible,
   CollapsibleContent,
@@ -20,7 +19,20 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 
-export const SidebarLeftMenu = ({ menuItems }: SidebarLeftProps) => {
+interface SidebarLeftMenuProps {
+  menuItems: {
+    title: string;
+    icon: LucideIcon;
+    isActive: boolean;
+    items: {
+      title: string;
+      url: string;
+      require?: boolean;
+    }[];
+  }[];
+}
+
+export const SidebarLeftMenu = ({ menuItems }: SidebarLeftMenuProps) => {
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Go Projects</SidebarGroupLabel>
@@ -53,17 +65,7 @@ export const SidebarLeftMenu = ({ menuItems }: SidebarLeftProps) => {
                         aria-disabled={subItem.require === false}
                       >
                         <Link href={subItem.url}>
-                          {/* Condition 1 */}
                           <span>{subItem.title}</span>
-
-                          {/* Condition 2 */}
-                          {subItem.title === "all account" && (
-                            <span className="ml-auto">
-                              {subItem.require ? subItem.count : ""}
-                            </span>
-                          )}
-
-                          {/* Condition 3 */}
                           {subItem.require === false && (
                             <span className="ml-auto">
                               <Lock className="size-3" />

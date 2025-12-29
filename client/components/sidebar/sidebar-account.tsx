@@ -43,7 +43,7 @@ export const SidebarAccount = () => {
           className="border bg-muted dark:bg-background"
         >
           <span className="flex flex-1 justify-center text-xs text-muted-foreground truncate">
-            © {new Date().getFullYear()} SUPANAT CHAISRI
+            © {new Date().getFullYear()} - SUPANAT CHAISRI
           </span>
         </SidebarMenuButton>
       )}

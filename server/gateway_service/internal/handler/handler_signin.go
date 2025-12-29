@@ -2,7 +2,6 @@ package handler
 
 import (
 	"errors"
-	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/untitlez/E-Commerce/server/gateway_service/internal/domain"
@@ -23,14 +22,14 @@ func (h *handler) SignIn(c *fiber.Ctx) error {
 		return h.responseError(c, 400, errors.New(res.Error))
 	}
 
-	c.Cookie(&fiber.Cookie{
-		Name:     "Authorization",
-		Value:    res.Data.(string),
-		Expires:  time.Now().Add(time.Hour),
-		Secure:   h.development == "production",
-		HTTPOnly: true,
-		SameSite: fiber.CookieSameSiteNoneMode,
-	})
+	// c.Cookie(&fiber.Cookie{
+	// 	Name:     "Authorization",
+	// 	Value:    res.Data.(string),
+	// 	Expires:  time.Now().Add(time.Hour),
+	// 	Secure:   h.development == "production",
+	// 	HTTPOnly: true,
+	// 	SameSite: fiber.CookieSameSiteNoneMode,
+	// })
 
-	return h.responseSuccess(c, 200, "Sign In Success", nil)
+	return h.responseSuccess(c, 200, "Sign In Success", res.Data)
 }

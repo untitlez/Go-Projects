@@ -62,14 +62,20 @@ func (r *repository) Create(req *domain.ProfileRequest) error {
 
 func (r *repository) Update(req *domain.ProfileRequest) error {
 	profile := &domain.Profile{
-		FullName:  req.FullName,
-		Gender:    req.Gender,
-		BirthDate: req.BirthDate,
-		Email:     req.Email,
-		Address:   req.Address,
-		CitizenId: req.CitizenId,
-		Phone:     req.Phone,
-		Image:     req.Image,
+		FullName:       req.FullName,
+		Gender:         req.Gender,
+		BirthDate:      req.BirthDate,
+		Email:          req.Email,
+		Address:        req.Address,
+		CitizenId:      req.CitizenId,
+		Phone:          req.Phone,
+		Image:          req.Image,
+		Position:       req.Position,
+		EmploymentType: req.EmploymentType,
+		StartDate:      req.StartDate,
+		Status:         req.Status,
+		YearsOfService: req.YearsOfService,
+		Salary:         req.Salary,
 	}
 
 	return r.db.Where("id=?", req.ID).Updates(profile).Error

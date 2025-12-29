@@ -4,10 +4,10 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { useStoreAuth } from "@/lib/use-client/store/store-auth";
-import { useSession } from "@/lib/use-client/hook/use-auth";
 import { authSignout } from "@/lib/use-client/axios-auth";
 import { deleteUser } from "@/lib/use-client/axios-user";
 import { userType } from "@/validators/user.validator";
+import { sessionType } from "@/validators/session.validator";
 
 import { AuthDetailAccount } from "./auth-detail-account";
 import { AuthDetailProfile } from "./auth-detail-profile";
@@ -15,17 +15,17 @@ import { AuthDetailExpire } from "./auth-detail-expire";
 import { Card, CardContent } from "@/components/ui/card";
 
 interface AuthDetailProps {
-  users?: userType[] | null;
-  limit?: userType[] | null;
+  users?: userType[];
+  limit?: userType[];
+  session?: sessionType;
 }
 
-export const AuthDetail = ({ users, limit }: AuthDetailProps) => {
+export const AuthDetail = ({ users, limit, session }: AuthDetailProps) => {
   const [showDelete, setShowDelete] = useState(false);
   const [open, setOpen] = useState(false);
   const [expire, setExpire] = useState(0);
 
-  const { authorization, setAccount } = useStoreAuth();
-  const { session, getSession } = useSession();
+  const { setAccount } = useStoreAuth();
   const router = useRouter();
 
   // LOGIC
@@ -45,7 +45,6 @@ export const AuthDetail = ({ users, limit }: AuthDetailProps) => {
   const onDelete = async (id: string) => {
     await deleteUser(id);
     if (id === session?.id) await authSignout();
-    getSession();
     router.refresh();
     setShowDelete(false);
     setOpen(false);
@@ -56,18 +55,13 @@ export const AuthDetail = ({ users, limit }: AuthDetailProps) => {
     setExpire(exp - now);
     const timer = setInterval(() => setExpire((prev) => prev - 1), 1000);
     return () => clearInterval(timer);
-  }, [session?.registeredClaims?.exp]);
-
-  useEffect(() => {
-    if (session) return;
-    getSession();
-  }, [authorization]);
+  }, [session]);
 
   return (
     <Card className="overflow-hidden h-full w-full p-0 bg-transparent">
       <CardContent className="h-full p-6 md:p-8 space-y-4">
         <AuthDetailAccount
-          authorization={authorization}
+          session={session}
           users={users}
           limit={limit}
           showDelete={showDelete}
@@ -78,13 +72,8 @@ export const AuthDetail = ({ users, limit }: AuthDetailProps) => {
           setAccount={setAccount}
           within30Min={within30Min}
         />
-        <AuthDetailProfile authorization={authorization} session={session} />
-        <AuthDetailExpire
-          authorization={authorization}
-          session={session}
-          min={min}
-          sec={sec}
-        />
+        <AuthDetailProfile session={session} />
+        <AuthDetailExpire session={session} min={min} sec={sec} />
       </CardContent>
     </Card>
   );

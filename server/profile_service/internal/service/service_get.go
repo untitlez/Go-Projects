@@ -25,18 +25,24 @@ func (s *service) GetAllProfile(query string) ([]*domain.ProfileResponse, error)
 
 	for _, v := range data {
 		response = append(response, &domain.ProfileResponse{
-			ID:        v.ID,
-			UserId:    v.UserId,
-			FullName:  v.FullName,
-			Gender:    v.Gender,
-			BirthDate: v.BirthDate,
-			Email:     v.Email,
-			Address:   v.Address,
-			CitizenId: v.CitizenId,
-			Phone:     v.Phone,
-			Image:     v.Image,
-			CreatedAt: v.CreatedAt,
-			UpdatedAt: v.UpdatedAt,
+			ID:             v.ID,
+			UserId:         v.UserId,
+			FullName:       v.FullName,
+			Gender:         v.Gender,
+			BirthDate:      v.BirthDate,
+			Email:          v.Email,
+			Address:        v.Address,
+			CitizenId:      v.CitizenId,
+			Phone:          v.Phone,
+			Image:          v.Image,
+			Position:       v.Position,
+			EmploymentType: v.EmploymentType,
+			StartDate:      v.StartDate,
+			Status:         v.Status,
+			YearsOfService: v.YearsOfService,
+			Salary:         v.Salary,
+			CreatedAt:      v.CreatedAt,
+			UpdatedAt:      v.UpdatedAt,
 		})
 	}
 
@@ -65,18 +71,24 @@ func (s *service) GetProfile(id string) (*domain.ProfileResponse, error) {
 	}
 
 	response := &domain.ProfileResponse{
-		ID:        data.ID,
-		UserId:    data.UserId,
-		FullName:  data.FullName,
-		Gender:    data.Gender,
-		BirthDate: data.BirthDate,
-		Email:     data.Email,
-		Address:   data.Address,
-		CitizenId: data.CitizenId,
-		Phone:     data.Phone,
-		Image:     data.Image,
-		CreatedAt: data.CreatedAt,
-		UpdatedAt: data.UpdatedAt,
+		ID:             data.ID,
+		UserId:         data.UserId,
+		FullName:       data.FullName,
+		Gender:         data.Gender,
+		BirthDate:      data.BirthDate,
+		Email:          data.Email,
+		Address:        data.Address,
+		CitizenId:      data.CitizenId,
+		Phone:          data.Phone,
+		Image:          data.Image,
+		Position:       data.Position,
+		EmploymentType: data.EmploymentType,
+		StartDate:      data.StartDate,
+		Status:         data.Status,
+		YearsOfService: data.YearsOfService,
+		Salary:         data.Salary,
+		CreatedAt:      data.CreatedAt,
+		UpdatedAt:      data.UpdatedAt,
 	}
 
 	return response, nil

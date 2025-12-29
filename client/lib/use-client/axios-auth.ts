@@ -5,6 +5,7 @@ import axios, { AxiosError } from "axios";
 
 import { Config } from "@/lib/config";
 import { authType } from "@/validators/account.validator";
+import { clearCookie, setCookie } from "../use-server/cookie";
 
 interface ApiErrorResponse {
   success: boolean;
@@ -43,6 +44,7 @@ export const authSignin = async (body: authType) => {
     );
 
     if (!data.success) throw new Error(data.error);
+    await setCookie(data.data);
     toast.success(data.message);
     return;
   } catch (err) {
@@ -64,6 +66,7 @@ export const authSignout = async () => {
     );
 
     if (!data.success) throw new Error(data.error);
+    await clearCookie();
     toast.success(data.message);
     return;
   } catch (err) {

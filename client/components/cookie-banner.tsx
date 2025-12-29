@@ -34,7 +34,7 @@ export const CookieBanner = () => {
           <div className="ml-auto">
             <Button
               size="sm"
-              className="cursor-pointer capitalize"
+              className="cursor-pointer active:cursor-progress capitalize"
               onClick={acceptCookies}
             >
               accept

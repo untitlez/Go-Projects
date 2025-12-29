@@ -15,26 +15,24 @@ import {
 } from "@/components/ui/item";
 
 interface AuthDetailExpireProps {
-  authorization?: boolean;
-  session?: sessionType | null;
+  session?: sessionType;
   min: number;
   sec: number;
 }
 
-export function AuthDetailExpire({
-  authorization,
+export const AuthDetailExpire = ({
   session,
   min,
   sec,
-}: AuthDetailExpireProps) {
+}: AuthDetailExpireProps) => {
   return (
     <Item variant="outline">
       <ItemMedia
         variant="icon"
         className={
           min < 10
-            ? `${authorization ? "ItemMedia-error" : ""}`
-            : `${authorization ? "ItemMedia-success" : ""}`
+            ? `${session ? "ItemMedia-error" : ""}`
+            : `${session ? "ItemMedia-success" : ""}`
         }
       >
         <BadgeCheck />
@@ -51,7 +49,7 @@ export function AuthDetailExpire({
       </ItemContent>
 
       <ItemActions>
-        {authorization ? (
+        {session ? (
           <Button
             variant={min < 10 ? "destructive" : "default"}
             className="pointer-events-none"
@@ -66,4 +64,4 @@ export function AuthDetailExpire({
       </ItemActions>
     </Item>
   );
-}
+};

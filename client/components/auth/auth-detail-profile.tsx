@@ -23,14 +23,10 @@ import {
 } from "@/components/ui/popover";
 
 interface AuthDetailProfileProps {
-  authorization?: boolean;
-  session?: sessionType | null;
+  session?: sessionType;
 }
 
-export function AuthDetailProfile({
-  authorization,
-  session,
-}: AuthDetailProfileProps) {
+export const AuthDetailProfile = ({ session }: AuthDetailProfileProps) => {
   const items = [
     { label: "username", defaultValue: session?.username },
     { label: "email", defaultValue: session?.email },
@@ -39,7 +35,7 @@ export function AuthDetailProfile({
 
   return (
     <Item variant="outline">
-      {authorization ? (
+      {session ? (
         <ItemMedia variant="image">
           <Image
             src={session?.image || "/shiba.jpg"}
@@ -60,7 +56,7 @@ export function AuthDetailProfile({
         <ItemDescription>{session?.role ?? "Role"}</ItemDescription>
       </ItemContent>
       <ItemActions>
-        {authorization ? (
+        {session ? (
           <Popover>
             <PopoverTrigger asChild>
               <Button className="cursor-pointer capitalize">view</Button>
@@ -94,4 +90,4 @@ export function AuthDetailProfile({
       </ItemActions>
     </Item>
   );
-}
+};

@@ -3,14 +3,15 @@
 import { Plus } from "lucide-react";
 
 import { userType } from "@/validators/user.validator";
+import { sessionType } from "@/validators/session.validator";
 
 import { AuthDetailAccountMore } from "./auth-detail-account-more";
 import { Button } from "@/components/ui/button";
 
 interface AuthDetailAccountProps {
-  authorization?: boolean;
-  users?: userType[] | null;
-  limit?: userType[] | null;
+  session?: sessionType;
+  users?: userType[];
+  limit?: userType[];
   showDelete: boolean;
   setShowDelete: (value: boolean) => void;
   open: boolean;
@@ -21,7 +22,7 @@ interface AuthDetailAccountProps {
 }
 
 export const AuthDetailAccount = ({
-  authorization,
+  session,
   users,
   limit,
   showDelete,
@@ -69,7 +70,7 @@ export const AuthDetailAccount = ({
         {/* More Account*/}
         {users && (
           <AuthDetailAccountMore
-            authorization={authorization}
+            session={session}
             users={users}
             showDelete={showDelete}
             setShowDelete={setShowDelete}

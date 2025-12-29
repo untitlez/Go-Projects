@@ -3,6 +3,7 @@
 import { List, Plus, Trash2 } from "lucide-react";
 
 import { userType } from "@/validators/user.validator";
+import { sessionType } from "@/validators/session.validator";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -21,7 +22,7 @@ import {
 } from "@/components/ui/dialog";
 
 interface AuthDetailAccountMoreProps {
-  authorization?: boolean;
+  session?: sessionType;
   users?: userType[] | null;
   showDelete: boolean;
   setShowDelete: (value: boolean) => void;
@@ -33,7 +34,7 @@ interface AuthDetailAccountMoreProps {
 }
 
 export const AuthDetailAccountMore = ({
-  authorization,
+  session,
   users,
   showDelete,
   setShowDelete,
@@ -111,7 +112,7 @@ export const AuthDetailAccountMore = ({
           )
         )}
         {/* On Delete */}
-        {authorization && (
+        {session && (
           <Button
             variant={showDelete ? "outline" : "destructive"}
             className="col-span-2 cursor-pointer capitalize hover:opacity-80 mt-3"

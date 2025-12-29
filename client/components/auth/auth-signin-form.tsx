@@ -10,6 +10,7 @@ import { useStoreAuth } from "@/lib/use-client/store/store-auth";
 import { useSession } from "@/lib/use-client/hook/use-auth";
 import { authSignin, authSignout } from "@/lib/use-client/axios-auth";
 import { authSchema, authType } from "@/validators/account.validator";
+import { sessionType } from "@/validators/session.validator";
 
 import { SigninFormInput } from "./auth-signin-form-input";
 import { AuthGoogleProvider } from "./auth-google-provider";
@@ -23,11 +24,15 @@ import {
   FieldSeparator,
 } from "@/components/ui/field";
 
-export function AuthSigninForm() {
+interface AuthSigninFormProps {
+  session?: sessionType;
+}
+
+export const AuthSigninForm = ({ session }: AuthSigninFormProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const { account, setAccount, authorization } = useStoreAuth();
+  const { account, setAccount } = useStoreAuth();
   const { getSession } = useSession();
 
   const form = useForm<authType>({
@@ -66,7 +71,7 @@ export function AuthSigninForm() {
     <Card className="relative overflow-hidden h-full w-full p-0">
       <CardContent className="p-6 md:p-8">
         {/* sign out  */}
-        {authorization ? (
+        {session ? (
           <div className="absolute inset-0 grid place-items-center">
             <Button
               className="btn capitalize"
@@ -148,4 +153,4 @@ export function AuthSigninForm() {
       </CardContent>
     </Card>
   );
-}
+};
