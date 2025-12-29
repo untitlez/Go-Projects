@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-import { useStoreAuth } from "@/lib/use-client/store/store-auth";
-import { useSession } from "@/lib/use-client/hook/use-auth";
-import { useAllUser } from "@/lib/use-client/hook/use-user";
-import { useAllProfile } from "@/lib/use-client/hook/use-profile";
 import { deleteUser } from "@/lib/use-client/axios-user";
+import { sessionType } from "@/validators/session.validator";
+import { userType } from "@/validators/user.validator";
+import { profileType } from "@/validators/profile.validator";
 import LoadingPage from "@/app/(pages)/loading";
 
 import { ProfileTableBody } from "./profile-table-body";
@@ -35,20 +35,25 @@ const tableHeadField = [
   { label: "" },
 ];
 
-const limit = "10";
+interface ProfileTableProps {
+  session?: sessionType;
+  allUser?: userType[];
+  allProfile?: profileType[];
+  limit?: string;
+}
 
-export const ProfileTable = () => {
+export const ProfileTable = ({
+  session,
+  allUser,
+  allProfile,
+  limit,
+}: ProfileTableProps) => {
   const [open, setOpen] = useState(false);
-
-  const { authorization } = useStoreAuth();
-  const { session, getSession } = useSession();
-  const { allUser, getAllUser } = useAllUser(limit);
-  const { allProfile, getAllProfile } = useAllProfile(limit);
+  const router = useRouter();
 
   const onDelete = async (id: string) => {
     await deleteUser(id);
-    getAllUser();
-    getAllProfile();
+    router.refresh();
   };
 
   const findUserId = (userId: string) => {
@@ -64,12 +69,6 @@ export const ProfileTable = () => {
 
   const length = allData?.length || 0;
   const pagination = Math.ceil(length / Number(limit));
-
-  useEffect(() => {
-    getSession();
-    getAllUser();
-    getAllProfile();
-  }, [authorization]);
 
   if (!allData) return <LoadingPage />;
 
@@ -87,7 +86,7 @@ export const ProfileTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {allProfile ? (
+          {allData ? (
             <ProfileTableBody
               allData={allData}
               session={session}

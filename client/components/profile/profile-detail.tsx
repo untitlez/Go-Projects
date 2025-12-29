@@ -1,13 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import { Cake, IdCard, Mail, MapPin, Phone, UserCircle } from "lucide-react";
 
 import { updateProfile } from "@/lib/use-client/axios-profile";
-import { useProfileById } from "@/lib/use-client/hook/use-profile";
-import { profileUpdateType } from "@/validators/profile.validator";
+import { profileType, profileUpdateType } from "@/validators/profile.validator";
 
 import { ProfileDetailInput } from "./profile-detail-input";
 import { ProfileDetailRadio } from "./profile-detail-radio";
@@ -25,12 +24,15 @@ import {
   ItemTitle,
 } from "@/components/ui/item";
 
-export const ProfileDetail = () => {
-  const [edit, setEdit] = useState(false);
-  const [openDialog, setOpenDialog] = useState<boolean>();
+interface ProfileDetailProps {
+  profile?: profileType;
+}
 
-  const { id } = useParams<{ id: string }>();
-  const { profile, getProfileById } = useProfileById(id);
+export const ProfileDetail = ({ profile }: ProfileDetailProps) => {
+  const [openDialog, setOpenDialog] = useState<boolean>();
+  const [edit, setEdit] = useState(false);
+
+  const router = useRouter();
 
   const values = {
     full_name: profile?.full_name || "",
@@ -51,13 +53,12 @@ export const ProfileDetail = () => {
     await updateProfile(id, formData);
     setOpenDialog(false);
     setEdit(false);
-    getProfileById();
+    router.refresh();
   };
 
   useEffect(() => {
     form.reset(values);
     if (profile) return;
-    getProfileById();
   }, [profile]);
 
   const items = [
@@ -108,12 +109,12 @@ export const ProfileDetail = () => {
   ] as const;
 
   return (
-    <Card className="w-full h-full overflow-hidden bg-transparent">
+    <Card className="w-full h-full overflow-hidden dark:bg-card/20">
       <CardContent className="p-6 md:p-8">
         <FormProvider {...form}>
           <form className="flex flex-col gap-4 lg:gap-6">
             {items.map((item, i) => (
-              <Item key={i} variant="outline">
+              <Item key={i} variant="outline" className="dark:bg-card/50">
                 <ItemMedia variant="icon">
                   {item.icon && <item.icon />}
                 </ItemMedia>

@@ -8,7 +8,7 @@ export const fetchAllProfile = async (limit?: string) => {
   try {
     const token = await getToken();
     const res = await fetch(
-      Config.API_URL + Config.SERVICES.PROFILE.ALL + limit,
+      Config.API_URL + Config.SERVICES.PROFILE.ALL_LIMIT + limit,
       {
         headers: { Authorization: "Bearer " + token },
         cache: "no-store",

@@ -25,7 +25,7 @@ interface ProfileTableBodyProps {
     user?: userType;
     profile?: profileType;
   }[];
-  session?: sessionType | null;
+  session?: sessionType;
   onDelete: (value: string) => void;
   open: boolean;
   setOpen: (value: boolean) => void;

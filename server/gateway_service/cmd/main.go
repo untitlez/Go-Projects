@@ -39,8 +39,12 @@ func main() {
 	private.Get("/session", gatewayHandler.Session)
 
 	internal := app.Group("/api", checkAuth)
-	internal.Use("/user", proxy.Forward(cfg.Service.User+"/api/user"))
-	internal.Use("/profile", proxy.Forward(cfg.Service.User+"/api/profile"))
+	internal.Use("/user", func(c *fiber.Ctx) error {
+		return proxy.Do(c, cfg.Service.User+c.OriginalURL())
+	})
+	internal.Use("/profile", func(c *fiber.Ctx) error {
+		return proxy.Do(c, cfg.Service.Profile+c.OriginalURL())
+	})
 
 	app.Listen(fmt.Sprintf(":%v", cfg.App.Port))
 }

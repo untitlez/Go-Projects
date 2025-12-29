@@ -28,10 +28,10 @@ func main() {
 	req.Post("/signin", userHandler.SignIn)
 
 	internal := app.Group("/api/user")
-	internal.Get("/:id<string>", userHandler.GetUser)
+	internal.Get("/:id", userHandler.GetUser)
 	internal.Get("/", userHandler.GetAllUser)
-	internal.Put("/:id<string>", userHandler.UpdateUser)
-	internal.Delete("/:id<string>", userHandler.DeleteUser)
+	internal.Put("/:id", userHandler.UpdateUser)
+	internal.Delete("/:id", userHandler.DeleteUser)
 
 	app.Listen(fmt.Sprintf(":%v", cfg.App.Port))
 }

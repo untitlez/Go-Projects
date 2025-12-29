@@ -7,7 +7,7 @@ import { getToken } from "./cookie";
 export const fetchAllUser = async (limit?: string) => {
   try {
     const token = await getToken();
-    const res = await fetch(Config.API_URL + Config.SERVICES.USER.ALL + limit, {
+    const res = await fetch(Config.API_URL + Config.SERVICES.USER.ALL_LIMIT + limit, {
       headers: { Authorization: "Bearer " + token },
       cache: "no-store",
     });
@@ -25,7 +25,6 @@ export const fetchAllUser = async (limit?: string) => {
 export const fetchUserById = async (id?: string) => {
   try {
     const token = await getToken();
-    console.log('token', token)
     const res = await fetch(Config.API_URL + Config.SERVICES.USER.LIST + id, {
       headers: { Authorization: "Bearer " + token },
       cache: "no-store",

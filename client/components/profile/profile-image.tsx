@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Loader, X } from "lucide-react";
 
@@ -10,7 +10,7 @@ import {
   updateProfile,
   uploadImage,
 } from "@/lib/use-client/axios-profile";
-import { useProfileById } from "@/lib/use-client/hook/use-profile";
+import { profileType } from "@/validators/profile.validator";
 
 import { Spinner } from "@/components/ui/spinner";
 import { Button } from "@/components/ui/button";
@@ -23,15 +23,18 @@ import {
   ItemTitle,
 } from "@/components/ui/item";
 
-export const ProfileImage = () => {
-  const { id } = useParams<{ id: string }>();
-  const { profile, getProfileById } = useProfileById(id);
+interface ProfileImageProps {
+  profile?: profileType;
+}
 
+export const ProfileImage = ({ profile }: ProfileImageProps) => {
   const [files, setFiles] = useState<FileList | null>();
   const [image, setImage] = useState(profile?.image);
   const [edit, setEdit] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const router = useRouter();
 
   // STEP 1 : Choose Image
   const setFileData = () => {
@@ -64,7 +67,7 @@ export const ProfileImage = () => {
     const id = String(profile?.id);
     const body = { image: image };
     await updateProfile(id, body);
-    getProfileById();
+    router.refresh();
 
     setIsSubmitting(false);
     setEdit(false);
@@ -79,13 +82,12 @@ export const ProfileImage = () => {
   useEffect(() => {
     setImage(profile?.image);
     if (profile) return setLoading(false);
-    getProfileById();
   }, [profile]);
 
   return (
-    <Card className="w-full overflow-hidden bg-transparent">
+    <Card className="w-full overflow-hidden dark:bg-card/30">
       <CardContent className="grid gap-4 p-6 md:p-8">
-        <Item variant="outline">
+        <Item variant="outline" className="dark:bg-card/50">
           <div className="relative overflow-hidden w-full aspect-square">
             {loading ? (
               <div className="h-full rounded-sm bg-muted grid place-content-center">

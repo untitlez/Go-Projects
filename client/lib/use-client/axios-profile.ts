@@ -5,6 +5,7 @@ import axios, { AxiosError } from "axios";
 
 import { Config } from "@/lib/config";
 import { profileUpdateType } from "@/validators/profile.validator";
+import { getToken } from "../use-server/cookie";
 
 interface ApiErrorResponse {
   success: boolean;
@@ -47,10 +48,11 @@ export const getProfile = async (id: string) => {
 // UPDATE
 export const updateProfile = async (id: string, body: profileUpdateType) => {
   try {
+    const token = await getToken();
     const { data } = await axios.put(
       Config.API_URL + Config.SERVICES.PROFILE.LIST + id,
       body,
-      { withCredentials: true }
+      { headers: { Authorization: "Bearer " + token } }
     );
 
     if (!data.success) throw new Error(data.error);
@@ -68,10 +70,11 @@ export const updateProfile = async (id: string, body: profileUpdateType) => {
 // UPLOAD
 export const uploadImage = async (body: FormData | undefined) => {
   try {
+    const token = await getToken();
     const { data } = await axios.post(
       Config.API_URL + Config.SERVICES.PROFILE.UPLOAD,
       body,
-      { withCredentials: true }
+      { headers: { Authorization: "Bearer " + token } }
     );
 
     if (!data.success) throw new Error(data.error);
@@ -88,10 +91,11 @@ export const uploadImage = async (body: FormData | undefined) => {
 // REMOVE UPLOAD
 export const RemoveUploadImage = async (body: FormData | undefined) => {
   try {
+    const token = await getToken();
     const { data } = await axios.post(
       Config.API_URL + Config.SERVICES.PROFILE.REMOVE_UPLOAD,
       body,
-      { withCredentials: true }
+      { headers: { Authorization: "Bearer " + token } }
     );
 
     if (!data.success) throw new Error(data.error);

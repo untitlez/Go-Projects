@@ -1,13 +1,12 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { KeyRound, User2 } from "lucide-react";
 
 import { updataUser } from "@/lib/use-client/axios-user";
-import { useUserById } from "@/lib/use-client/hook/use-user";
-import { userUpdateType } from "@/validators/user.validator";
+import { userType, userUpdateType } from "@/validators/user.validator";
 
 import { ProfileAccountSubmit } from "./profile-account-submit";
 import { Button } from "@/components/ui/button";
@@ -22,12 +21,15 @@ import {
   ItemTitle,
 } from "@/components/ui/item";
 
-export const ProfileAccount = () => {
-  const [edit, setEdit] = useState(false);
-  const [openDialog, setOpenDialog] = useState<boolean>();
+interface ProfileAccountProps {
+  user?: userType;
+}
 
-  const { id } = useParams<{ id: string }>();
-  const { user, getUserById } = useUserById(id);
+export const ProfileAccount = ({ user }: ProfileAccountProps) => {
+  const [openDialog, setOpenDialog] = useState<boolean>();
+  const [edit, setEdit] = useState(false);
+
+  const router = useRouter();
 
   const values = {
     username: user?.username || "",
@@ -39,16 +41,16 @@ export const ProfileAccount = () => {
   });
 
   const onSubmit = async (formData: userUpdateType) => {
-    await updataUser(id, formData);
+    if (!user?.id) return;
+    await updataUser(user?.id, formData);
     setOpenDialog(false);
     setEdit(false);
-    getUserById();
+    router.refresh();
   };
 
   useEffect(() => {
     form.reset(values);
     if (user) return;
-    getUserById();
   }, [user]);
 
   const items = [
@@ -65,13 +67,13 @@ export const ProfileAccount = () => {
   ] as const;
 
   return (
-    <Card className="w-full overflow-hidden bg-transparent">
+    <Card className="w-full overflow-hidden dark:bg-card/20">
       <CardContent className="h-full p-6 md:p-8 space-y-4">
         <FormProvider {...form}>
           <form className="flex flex-col gap-4 lg:gap-6">
             {/* Input  */}
             {items.map((item, i) => (
-              <Item key={i} variant="outline">
+              <Item key={i} variant="outline" className="dark:bg-card/50">
                 <ItemMedia variant="icon">
                   {item.icon && <item.icon />}
                 </ItemMedia>
