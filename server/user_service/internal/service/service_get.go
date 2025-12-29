@@ -9,17 +9,13 @@ import (
 )
 
 // Get All
-func (s *service) GetAllUser(query string) ([]*domain.UserResponse, error) {
-	limit, err := strconv.Atoi(query)
+func (s *service) GetAllUser(req string) ([]*domain.UserResponse, error) {
+	query, err := s.getQuery(req)
 	if err != nil {
 		return nil, err
 	}
 
-	req := &domain.UserRequest{
-		Limit: limit,
-	}
-
-	data, err := s.repo.FindAll(req)
+	data, err := s.repo.FindAll(query)
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +71,7 @@ func (s *service) GetUser(id string) (*domain.UserResponse, error) {
 }
 
 // Query Func
-func getQuery(query string) (*domain.UserRequest, error) {
+func (s *service) getQuery(query string) (*domain.UserRequest, error) {
 	req := &domain.UserRequest{}
 
 	if query != "" {
