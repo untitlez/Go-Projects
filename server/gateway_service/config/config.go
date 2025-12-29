@@ -13,6 +13,7 @@ type Config struct {
 		Domain      string
 		Development string
 		Secret      string
+		Unsplash    string
 	}
 
 	DB struct {
