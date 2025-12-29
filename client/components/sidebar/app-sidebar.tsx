@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { LockKeyhole, NotebookPen, User2 } from "lucide-react";
+import { LockKeyhole, User2 } from "lucide-react";
 
 import { Routes } from "@/lib/routes";
 import { useStoreAuth } from "@/lib/use-client/store/store-auth";
@@ -58,17 +58,17 @@ export const AppSideBar = ({ children }: AppSideBarProps) => {
         },
       ],
     },
-    {
-      title: "leave system",
-      icon: NotebookPen,
-      isActive: true,
-      items: [
-        {
-          title: "link demo",
-          url: Routes.external.hr_project,
-        },
-      ],
-    },
+    // {
+    //   title: "leave system",
+    //   icon: NotebookPen,
+    //   isActive: true,
+    //   items: [
+    //     {
+    //       title: "link demo",
+    //       url: Routes.external.hr_project,
+    //     },
+    //   ],
+    // },
   ];
 
   return (
