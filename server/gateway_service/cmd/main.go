@@ -45,7 +45,6 @@ func main() {
 		Servers: []string{cfg.Service.User + "/api/user"},
 		ModifyResponse: func(c *fiber.Ctx) error {
 			c.Response().Header.Set("Access-Control-Allow-Origin", cfg.App.Domain)
-			c.Response().Header.Set("Access-Control-Allow-Credentials", "true")
 			return nil
 		},
 		Timeout: 5 * time.Second,
@@ -55,7 +54,6 @@ func main() {
 		Servers: []string{cfg.Service.Profile + "/api/profile"},
 		ModifyResponse: func(c *fiber.Ctx) error {
 			c.Response().Header.Set("Access-Control-Allow-Origin", cfg.App.Domain)
-			c.Response().Header.Set("Access-Control-Allow-Credentials", "true")
 			return nil
 		},
 		Timeout: 5 * time.Second,
