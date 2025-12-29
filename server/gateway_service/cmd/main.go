@@ -43,11 +43,21 @@ func main() {
 	internal := app.Group("/api", checkAuth)
 	internal.Use("/user", proxy.Balancer(proxy.Config{
 		Servers: []string{cfg.Service.User + "/api/user"},
+		ModifyResponse: func(c *fiber.Ctx) error {
+			c.Response().Header.Set("Access-Control-Allow-Origin", cfg.App.Domain)
+			c.Response().Header.Set("Access-Control-Allow-Credentials", "true")
+			return nil
+		},
 		Timeout: 5 * time.Second,
 	}))
 
 	internal.Use("/profile", proxy.Balancer(proxy.Config{
 		Servers: []string{cfg.Service.Profile + "/api/profile"},
+		ModifyResponse: func(c *fiber.Ctx) error {
+			c.Response().Header.Set("Access-Control-Allow-Origin", cfg.App.Domain)
+			c.Response().Header.Set("Access-Control-Allow-Credentials", "true")
+			return nil
+		},
 		Timeout: 5 * time.Second,
 	}))
 

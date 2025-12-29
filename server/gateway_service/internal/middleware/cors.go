@@ -7,7 +7,7 @@ import (
 
 func AuthCORS(app *fiber.App, domain string) {
 	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "*",
+		AllowOrigins:     domain,
 		AllowCredentials: true,
 		AllowHeaders:     "Origin, Content-Type, Authorization",
 		AllowMethods:     "GET,POST,PUT,DELETE,OPTIONS",
