@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
@@ -40,25 +39,12 @@ func main() {
 	private.Get("/session", gatewayHandler.Session)
 
 	internal := app.Group("/api", checkAuth)
-	internal.Use("/user", proxy.Balancer(proxy.Config{
-		Servers: []string{cfg.Service.User + "/api/user"},
-		ModifyResponse: func(c *fiber.Ctx) error {
-			c.Response().Header.Set("Access-Control-Allow-Origin", cfg.App.Domain)
-			c.Response().Header.Set("Access-Control-Allow-Credentials", "true")
-			return nil
-		},
-		Timeout: 5 * time.Second,
-	}))
-
-	internal.Use("/profile", proxy.Balancer(proxy.Config{
-		Servers: []string{cfg.Service.Profile + "/api/profile"},
-		ModifyResponse: func(c *fiber.Ctx) error {
-			c.Response().Header.Set("Access-Control-Allow-Origin", cfg.App.Domain)
-			c.Response().Header.Set("Access-Control-Allow-Credentials", "true")
-			return nil
-		},
-		Timeout: 5 * time.Second,
-	}))
+	internal.Use("/user", func(c *fiber.Ctx) error {
+		return proxy.Do(c, cfg.Service.User+c.OriginalURL())
+	})
+	internal.Use("/profile", func(c *fiber.Ctx) error {
+		return proxy.Do(c, cfg.Service.Profile+c.OriginalURL())
+	})
 
 	app.Listen(fmt.Sprintf(":%v", cfg.App.Port))
 }
