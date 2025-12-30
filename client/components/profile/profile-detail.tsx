@@ -35,13 +35,19 @@ export const ProfileDetail = ({ profile }: ProfileDetailProps) => {
   const router = useRouter();
 
   const values = {
-    full_name: profile?.full_name || "",
-    gender: profile?.gender || "",
-    email: profile?.email || "",
-    address: profile?.address || "",
-    phone: profile?.phone || "",
-    citizen_id: profile?.citizen_id || "",
-    birth_date: profile?.birth_date || "",
+    full_name: profile?.full_name ,
+    gender: profile?.gender ,
+    email: profile?.email ,
+    address: profile?.address ,
+    phone: profile?.phone ,
+    citizen_id: profile?.citizen_id ,
+    birth_date: profile?.birth_date ,
+    position: profile?.position ,
+    salary: profile?.salary ,
+    employment_type: profile?.employment_type ,
+    status: profile?.status ,
+    years_of_service: profile?.years_of_service ,
+    start_date: profile?.start_date ,
   };
 
   const form = useForm<profileUpdateType>({
@@ -106,7 +112,15 @@ export const ProfileDetail = ({ profile }: ProfileDetailProps) => {
       type: "text",
       description: profile?.phone || "no data",
     },
+    {
+      icon: UserCircle,
+      name: "position",
+      title: "position",
+      type: "text",
+      description: profile?.position || "no data",
+    },
   ] as const;
+
 
   return (
     <Card className="w-full h-full overflow-hidden dark:bg-card/20">

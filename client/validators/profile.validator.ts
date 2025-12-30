@@ -11,6 +11,12 @@ export const profileSchema = z.object({
   citizen_id: z.string().optional(),
   phone: z.string().optional(),
   image: z.string().optional(),
+  position: z.string().optional(),
+  salary: z.number().optional(),
+  employment_type: z.string().optional(),
+  status: z.string().optional(),
+  years_of_service: z.number().optional(),
+  start_date: z.string().optional(),
   created_at: z.date(),
   updated_at: z.date(),
 });

@@ -6,7 +6,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/logger"
-	"github.com/gofiber/fiber/v2/middleware/proxy"
 	"github.com/gofiber/fiber/v2/middleware/requestid"
 	"github.com/untitlez/E-Commerce/server/gateway_service/config"
 	"github.com/untitlez/E-Commerce/server/gateway_service/internal/client"
@@ -39,12 +38,8 @@ func main() {
 	private.Get("/session", gatewayHandler.Session)
 
 	internal := app.Group("/api", checkAuth)
-	internal.Use("/user", func(c *fiber.Ctx) error {
-		return proxy.Do(c, cfg.Service.User+c.OriginalURL())
-	})
-	internal.Use("/profile", func(c *fiber.Ctx) error {
-		return proxy.Do(c, cfg.Service.Profile+c.OriginalURL())
-	})
+	internal.Use("/user", middleware.AuthProxy(cfg.Service.User, cfg.App.Domain))
+	internal.Use("/profile", middleware.AuthProxy(cfg.Service.Profile, cfg.App.Domain))
 
 	app.Listen(fmt.Sprintf(":%v", cfg.App.Port))
 }
