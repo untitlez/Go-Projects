@@ -9,12 +9,17 @@ import { ProfileImage } from "@/components/profile/profile-image";
 import { ProfileAccount } from "@/components/profile/profile-account";
 import { ProfileDetail } from "@/components/profile/profile-detail";
 
-export default async function ProfileIdPage() {
+interface ProfileIdPageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default async function ProfileIdPage({ params }: ProfileIdPageProps) {
+  const { id } = await params;
   const session = await fetchSession();
 
   if (!session) return <UnauthorizedPage />;
 
-  const user = await fetchUserById(session?.id);
+  const user = await fetchUserById(id);
   const profile = await fetchProfileById(user?.id);
 
   if (!user && !profile) return <LoadingPage />;
