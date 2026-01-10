@@ -21,10 +21,11 @@ func (h *handler) GetAllUser(c *fiber.Ctx) error {
 }
 
 func (h *handler) GetImage(c *fiber.Ctx) error {
-	res, err := h.client.Unsplash.UnsplashClient()
+	query := c.Query("query")
+	res, err := h.client.Unsplash.GetImage(query)
 	if err != nil {
 		return h.responseError(c, 400, err)
 	}
 
-	return h.responseSuccess(c, 200, "", res)
+	return h.responseSuccess(c, 200, "", res.Url)
 }

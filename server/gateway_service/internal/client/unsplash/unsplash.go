@@ -2,9 +2,12 @@ package unsplash
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
+	"math/rand/v2"
 	"net/http"
+	"time"
 
 	"github.com/untitlez/E-Commerce/server/gateway_service/internal/domain"
 )
@@ -15,11 +18,13 @@ type unsplash struct {
 }
 
 func NewUnsplashClient(key string) *unsplash {
-	return &unsplash{key: key}
+	return &unsplash{
+		http: &http.Client{Timeout: 5 * time.Second},
+		key:  key,
+	}
 }
 
-func (c *unsplash) UnsplashClient() (*domain.UnsplashResponse, error) {
-	query := "forest"
+func (c *unsplash) GetImage(query string) (*domain.UnsplashResponse, error) {
 	per_page := 10
 
 	path := fmt.Sprintf("https://api.unsplash.com/search/photos?query=%v&per_page=%v&orientation=landscape&client_id=%v", query, per_page, c.key)
@@ -34,9 +39,20 @@ func (c *unsplash) UnsplashClient() (*domain.UnsplashResponse, error) {
 		return nil, err
 	}
 
-	response := &domain.UnsplashResponse{}
-	if err := json.Unmarshal(resp, response); err != nil {
+	request := &domain.UnsplashRequest{}
+	if err := json.Unmarshal(resp, request); err != nil {
 		return nil, err
+	}
+
+	data := request.Results
+	if len(data) == 0 {
+		return nil, errors.New("image not found")
+	}
+
+	random := rand.IntN(len(data))
+
+	response := &domain.UnsplashResponse{
+		Url: data[random].Urls.Raw,
 	}
 
 	return response, nil
