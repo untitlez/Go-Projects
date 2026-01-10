@@ -106,7 +106,6 @@ type ProfileService interface {
 
 	// Cloudinary Client
 	UploadImage(*CloudinaryRequest) (*CloudinaryResponse, error)
-	RemoveImage(*CloudinaryRequest) error
 }
 
 func (u *Profile) BeforeCreate(tx *gorm.DB) (err error) {

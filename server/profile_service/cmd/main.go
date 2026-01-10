@@ -27,7 +27,6 @@ func main() {
 	internal.Get("/:id<string>", profilesHandler.GetProfile)
 	internal.Get("/", profilesHandler.GetAllProfile)
 	internal.Post("/upload", profilesHandler.UploadImage)
-	internal.Post("/remove", profilesHandler.RemoveImage)
 	internal.Post("/", profilesHandler.CreateProfile)
 	internal.Put("/:id<string>", profilesHandler.UpdateProfile)
 	internal.Delete("/:id<string>", profilesHandler.DeleteProfile)

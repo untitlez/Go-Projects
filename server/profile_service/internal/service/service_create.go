@@ -30,9 +30,11 @@ func (s *service) UploadImage(req *domain.CloudinaryRequest) (*domain.Cloudinary
 		return nil, errors.New("fail to connect cloudinary")
 	}
 
+	overWrite := true
 	resp, err := cld.Upload.Upload(req.Ctx, req.File, uploader.UploadParams{
-		PublicID: req.FileName,
-		Folder:   "go lang",
+		PublicID:  req.FileName,
+		Folder:    "go lang",
+		Overwrite: &overWrite,
 	})
 	if err != nil {
 		return nil, errors.New("fail to upload new image")

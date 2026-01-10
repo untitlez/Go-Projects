@@ -51,5 +51,5 @@ func (h *handler) UploadImage(c *fiber.Ctx) error {
 		return h.responseError(c, 400, err)
 	}
 
-	return h.responseSuccess(c, 202, "", res)
+	return h.responseSuccess(c, 202, "", res.URL)
 }

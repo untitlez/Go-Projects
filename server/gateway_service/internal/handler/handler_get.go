@@ -2,7 +2,6 @@ package handler
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -23,7 +22,6 @@ func (h *handler) GetAllUser(c *fiber.Ctx) error {
 
 func (h *handler) GetImage(c *fiber.Ctx) error {
 	res, err := h.client.Unsplash.UnsplashClient()
-	fmt.Println("res", res)
 	if err != nil {
 		return h.responseError(c, 400, err)
 	}

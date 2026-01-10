@@ -45,8 +45,6 @@ func (c *unsplash) UnsplashClient() (*domain.UnsplashResponse, error) {
 // response func
 func (c *unsplash) doRequest(req *http.Request) ([]byte, error) {
 	res, err := c.http.Do(req)
-	fmt.Println("doRequest", res)
-	fmt.Println("err", err)
 	if err != nil {
 		return nil, err
 	}
