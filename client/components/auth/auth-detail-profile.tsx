@@ -21,24 +21,29 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { profileType } from "@/validators/profile.validator";
 
 interface AuthDetailProfileProps {
   session?: sessionType;
+  profile?: profileType;
 }
 
-export const AuthDetailProfile = ({ session }: AuthDetailProfileProps) => {
+export const AuthDetailProfile = ({
+  session,
+  profile,
+}: AuthDetailProfileProps) => {
   const items = [
     { label: "username", defaultValue: session?.username },
-    { label: "email", defaultValue: session?.email },
+    { label: "email", defaultValue: session?.email || profile?.email },
     { label: "role", defaultValue: session?.role },
   ];
 
   return (
-    <Item variant="outline">
+    <Item variant="outline" className="bg-muted/50">
       {session ? (
         <ItemMedia variant="image">
           <Image
-            src={session?.image || "/shiba.jpg"}
+            src={session?.image || profile?.image || "/shiba.jpg"}
             alt="profile image"
             className="bg-muted object-cover"
             sizes="20vw"

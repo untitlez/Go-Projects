@@ -8,6 +8,7 @@ import { authSignout } from "@/lib/use-client/axios-auth";
 import { deleteUser } from "@/lib/use-client/axios-user";
 import { userType } from "@/validators/user.validator";
 import { sessionType } from "@/validators/session.validator";
+import { profileType } from "@/validators/profile.validator";
 
 import { AuthDetailAccount } from "./auth-detail-account";
 import { AuthDetailProfile } from "./auth-detail-profile";
@@ -18,9 +19,15 @@ interface AuthDetailProps {
   users?: userType[];
   limit?: userType[];
   session?: sessionType;
+  profile?: profileType;
 }
 
-export const AuthDetail = ({ users, limit, session }: AuthDetailProps) => {
+export const AuthDetail = ({
+  users,
+  limit,
+  session,
+  profile,
+}: AuthDetailProps) => {
   const [showDelete, setShowDelete] = useState(false);
   const [open, setOpen] = useState(false);
   const [expire, setExpire] = useState(0);
@@ -58,7 +65,7 @@ export const AuthDetail = ({ users, limit, session }: AuthDetailProps) => {
   }, [session]);
 
   return (
-    <Card className="overflow-hidden h-full w-full p-0 bg-transparent">
+    <Card className="overflow-hidden h-full w-full p-0 dark:bg-transparent">
       <CardContent className="h-full p-6 md:p-8 space-y-4">
         <AuthDetailAccount
           session={session}
@@ -72,7 +79,7 @@ export const AuthDetail = ({ users, limit, session }: AuthDetailProps) => {
           setAccount={setAccount}
           within30Min={within30Min}
         />
-        <AuthDetailProfile session={session} />
+        <AuthDetailProfile session={session} profile={profile} />
         <AuthDetailExpire session={session} min={min} sec={sec} />
       </CardContent>
     </Card>

@@ -26,7 +26,7 @@ export const AuthDetailExpire = ({
   sec,
 }: AuthDetailExpireProps) => {
   return (
-    <Item variant="outline">
+    <Item variant="outline" className="bg-muted/50">
       <ItemMedia
         variant="icon"
         className={

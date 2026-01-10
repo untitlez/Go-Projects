@@ -48,9 +48,9 @@ export const AuthDetailAccountMore = ({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          // size="icon"
+          size="icon"
           variant="outline"
-          className="cursor-pointer capitalize"
+          className="cursor-pointer capitalize bg-secondary"
         >
           <List />
         </Button>

@@ -1,14 +1,24 @@
-import { Lock } from "lucide-react";
+import Image from "next/image";
+
+import { fetchImages } from "@/lib/use-server/fetch-images";
 
 import { AuthSignupForm } from "@/components/auth/auth-signup-form";
 
-export default function SignupPage() {
+export default async function SignupPage() {
+  const query = "sky";
+  const image = await fetchImages(query);
+
   return (
-    <div className="w-full max-w-screen-lg grid lg:grid-cols-2 rounded-2xl bg-primary/10 border">
+    <div className="relative w-full h-full overflow-hidden max-w-screen-lg grid lg:grid-cols-2 rounded-2xl bg-muted border">
       <AuthSignupForm />
-      <div className="hidden lg:grid place-items-center">
-        <Lock />
-      </div>
+      <Image
+        src={image}
+        alt="Image"
+        fill
+        sizes="100vw"
+        loading="eager"
+        className="hidden lg:grid object-cover brightness-75"
+      />
     </div>
   );
 }

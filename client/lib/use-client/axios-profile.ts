@@ -86,24 +86,3 @@ export const uploadImage = async (body: FormData | undefined) => {
     return null;
   }
 };
-
-//
-// REMOVE UPLOAD
-export const RemoveUploadImage = async (body: FormData | undefined) => {
-  try {
-    const token = await getToken();
-    const { data } = await axios.post(
-      Config.API_URL + Config.SERVICES.PROFILE.REMOVE_UPLOAD,
-      body,
-      { headers: { Authorization: "Bearer " + token } }
-    );
-
-    if (!data.success) throw new Error(data.error);
-    return;
-  } catch (err) {
-    const error = err as AxiosError<ApiErrorResponse>;
-    const msg = error.response?.data?.error || error.message;
-    toast.error(msg);
-    return null;
-  }
-};

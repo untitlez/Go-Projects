@@ -67,14 +67,14 @@ export const ProfileAccount = ({ user }: ProfileAccountProps) => {
   ] as const;
 
   return (
-    <Card className="w-full overflow-hidden dark:bg-card/20">
+    <Card className="w-full overflow-hidden dark:bg-transparent">
       <CardContent className="h-full p-6 md:p-8 space-y-4">
         <FormProvider {...form}>
           <form className="flex flex-col gap-4 lg:gap-6">
             {/* Input  */}
             {items.map((item, i) => (
-              <Item key={i} variant="outline" className="dark:bg-card/50">
-                <ItemMedia variant="icon">
+              <Item key={i} variant="outline" className="bg-muted/50">
+                <ItemMedia variant="icon"  className="text-primary">
                   {item.icon && <item.icon />}
                 </ItemMedia>
                 <ItemContent>
@@ -116,7 +116,7 @@ export const ProfileAccount = ({ user }: ProfileAccountProps) => {
               // BUTTON EDIT
               <Button
                 type="button"
-                variant="outline"
+                variant="secondary"
                 className="btn capitalize"
                 onClick={() => setEdit(!edit)}
               >

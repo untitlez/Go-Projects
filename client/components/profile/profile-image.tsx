@@ -5,11 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Loader, X } from "lucide-react";
 
-import {
-  RemoveUploadImage,
-  updateProfile,
-  uploadImage,
-} from "@/lib/use-client/axios-profile";
+import { updateProfile, uploadImage } from "@/lib/use-client/axios-profile";
 import { profileType } from "@/validators/profile.validator";
 
 import { Spinner } from "@/components/ui/spinner";
@@ -50,11 +46,11 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
   const onUpload = async () => {
     setLoading(true);
 
-    const fileData = setFileData();
-    const res = await uploadImage(fileData);
+    if (!files) return;
+    const preview = URL.createObjectURL(files[0]);
+    setImage(preview);
 
     setLoading(false);
-    setImage(res.data.url);
   };
 
   // STEP 3 : Update Data
@@ -62,10 +58,11 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
     setIsSubmitting(true);
 
     const fileData = setFileData();
-    await RemoveUploadImage(fileData);
+    const res = await uploadImage(fileData);
+    const imageURL = res.data;
 
     const id = String(profile?.id);
-    const body = { image: image };
+    const body = { image: imageURL };
     await updateProfile(id, body);
     router.refresh();
 
@@ -85,9 +82,9 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
   }, [profile]);
 
   return (
-    <Card className="w-full overflow-hidden dark:bg-card/30">
+    <Card className="w-full overflow-hidden dark:bg-transparent">
       <CardContent className="grid gap-4 p-6 md:p-8">
-        <Item variant="outline" className="dark:bg-card/50">
+        <Item variant="outline" className="bg-muted/50">
           <div className="relative overflow-hidden w-full aspect-square">
             {loading ? (
               <div className="h-full rounded-sm bg-muted grid place-content-center">
@@ -101,9 +98,9 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
                 src={image || "/shiba.jpg"}
                 alt="image"
                 sizes="100vw"
+                loading="eager"
                 className="rounded-sm object-cover"
-                fill={true}
-                unoptimized={true}
+                fill
               />
             )}
           </div>
@@ -147,7 +144,7 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
               <Button
                 type="button"
                 variant="secondary"
-                className="btn capitalize"
+                className="btn capitalize border"
                 onClick={() => setEdit(!edit)}
               >
                 change image

@@ -123,13 +123,13 @@ export const ProfileDetail = ({ profile }: ProfileDetailProps) => {
 
 
   return (
-    <Card className="w-full h-full overflow-hidden dark:bg-card/20">
+    <Card className="w-full h-full overflow-hidden dark:bg-transparent">
       <CardContent className="p-6 md:p-8">
         <FormProvider {...form}>
           <form className="flex flex-col gap-4 lg:gap-6">
             {items.map((item, i) => (
-              <Item key={i} variant="outline" className="dark:bg-card/50">
-                <ItemMedia variant="icon">
+              <Item key={i} variant="outline" className="bg-muted/50">
+                <ItemMedia variant="icon" className="text-primary">
                   {item.icon && <item.icon />}
                 </ItemMedia>
                 <ItemContent>

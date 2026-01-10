@@ -46,7 +46,7 @@ export const AuthSignupForm = () => {
   };
 
   return (
-    <Card className="overflow-hidden w-full h-full p-0 flex flex-col gap-6">
+    <Card className="overflow-hidden w-full h-full p-0 flex flex-col gap-6 lg:rounded-r-none z-10">
       <CardContent>
         <FormProvider {...form}>
           <form className="p-6 md:p-8" onSubmit={form.handleSubmit(onSignup)}>

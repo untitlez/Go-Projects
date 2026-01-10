@@ -13,6 +13,7 @@ export const Config = {
       SIGNOUT: "/signout",
       SESSION: "/session",
       ALL_LIMIT: "/users?limit=",
+      IMAGES: "/images?query=",
     },
     USER: {
       ALL_LIMIT: "/api/user?limit=",
