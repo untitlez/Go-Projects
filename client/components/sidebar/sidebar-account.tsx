@@ -1,25 +1,17 @@
 "use client";
 
-import { useEffect } from "react";
-
-import { useStoreAuth } from "@/lib/use-client/store/store-auth";
-import { useSession } from "@/lib/use-client/hook/use-auth";
-
 import { SidebarMenu, SidebarMenuButton } from "@/components/ui/sidebar";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { sessionType } from "@/validators/session.validator";
 
-export const SidebarAccount = () => {
-  const { authorization } = useStoreAuth();
-  const { session, getSession } = useSession();
+interface SidebarAccountProps {
+  session?: sessionType;
+}
 
-  useEffect(() => {
-    if (session) return;
-    getSession();
-  }, [authorization]);
-
+export const SidebarAccount = ({ session }: SidebarAccountProps) => {
   return (
     <SidebarMenu className="pointer-events-none">
-      {authorization ? (
+      {session ? (
         <SidebarMenuButton
           size="lg"
           className="border bg-muted dark:bg-background"

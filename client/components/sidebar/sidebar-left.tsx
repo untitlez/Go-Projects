@@ -80,7 +80,7 @@ export const SidebarLeft = ({ session }: SidebarLeftProps) => {
         <SidebarLeftMenu menuItems={menuItems} />
       </SidebarContent>
       <SidebarFooter>
-        <SidebarAccount />
+        <SidebarAccount session={session}/>
       </SidebarFooter>
     </Sidebar>
   );

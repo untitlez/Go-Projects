@@ -7,7 +7,7 @@ export const setCookie = async (token: string) => {
   cookieStore.set("Authorization", token, {
     secure: true,
     httpOnly: true,
-    sameSite: "none",
+    sameSite: "lax",
     maxAge: 60 * 60 * 1000,
   });
 };
@@ -17,7 +17,7 @@ export const clearCookie = async () => {
   cookieStore.set("Authorization", "", {
     secure: true,
     httpOnly: true,
-    sameSite: "none",
+    sameSite: "lax",
     maxAge: 0,
   });
 };

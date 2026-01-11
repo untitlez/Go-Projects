@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Routes } from "@/lib/routes";
 import { useStoreAuth } from "@/lib/use-client/store/store-auth";
-import { useSession } from "@/lib/use-client/hook/use-auth";
 import { authSignin, authSignout } from "@/lib/use-client/axios-auth";
 import { authSchema, authType } from "@/validators/account.validator";
 import { sessionType } from "@/validators/session.validator";
@@ -33,7 +33,7 @@ export const AuthSigninForm = ({ session }: AuthSigninFormProps) => {
   const [loading, setLoading] = useState(false);
 
   const { account, setAccount } = useStoreAuth();
-  const { getSession } = useSession();
+  const router = useRouter();
 
   const form = useForm<authType>({
     resolver: zodResolver(authSchema),
@@ -47,7 +47,7 @@ export const AuthSigninForm = ({ session }: AuthSigninFormProps) => {
     await authSignin(formData);
     setAccount({ username: "", password: "" });
     form.reset();
-    getSession();
+    router.refresh();
   };
 
   const onSignout = async () => {
@@ -55,7 +55,7 @@ export const AuthSigninForm = ({ session }: AuthSigninFormProps) => {
     await authSignout();
     setLoading(false);
     form.reset();
-    getSession();
+    router.refresh();
   };
 
   const onFill = () => {
