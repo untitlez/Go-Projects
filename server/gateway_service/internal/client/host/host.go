@@ -21,8 +21,8 @@ func NewHostClient(url string) *host {
 	}
 }
 
-func (c *host) GetHost() (*domain.GatewayResponse, error) {
-	req, err := http.NewRequest("GET", c.url+"/ping", nil)
+func (c *host) GetHost(path string) (*domain.GatewayResponse, error) {
+	req, err := http.NewRequest("GET", c.url+path, nil)
 	if err != nil {
 		return nil, err
 	}

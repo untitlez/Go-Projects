@@ -31,7 +31,8 @@ func (h *handler) GetImage(c *fiber.Ctx) error {
 }
 
 func (h *handler) GetHost(c *fiber.Ctx) error {
-	res, err := h.client.Host.GetHost()
+	path := c.Query("path")
+	res, err := h.client.Host.GetHost(path)
 	if err != nil {
 		return h.responseError(c, 400, err)
 	}

@@ -27,5 +27,5 @@ type JWTClaims struct {
 }
 
 type Host interface {
-	GetHost() (*GatewayResponse, error)
+	GetHost(string) (*GatewayResponse, error)
 }
