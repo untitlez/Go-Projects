@@ -10,6 +10,7 @@ import (
 type Config struct {
 	App struct {
 		Port        int
+		Host        string
 		Domain      string
 		Development string
 		Secret      string

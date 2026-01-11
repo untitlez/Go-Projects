@@ -33,6 +33,7 @@ func main() {
 	public.Post("/signout", gatewayHandler.SignOut)
 	public.Get("/users", gatewayHandler.GetAllUser)
 	public.Get("/images", gatewayHandler.GetImage)
+	public.Get("/host", gatewayHandler.GetHost)
 
 	private := app.Group("/", checkAuth)
 	private.Get("/session", gatewayHandler.Session)
