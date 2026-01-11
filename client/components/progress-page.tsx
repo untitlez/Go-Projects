@@ -9,6 +9,7 @@ import {
   fetchProfileService,
   fetchUserService,
 } from "@/lib/use-server/fetch-server";
+import { fetchImages } from "@/lib/use-server/fetch-images";
 
 import { Progress } from "@/components/ui/progress";
 
@@ -16,7 +17,8 @@ const values = {
   init: 10,
   step_1: 40,
   step_2: 70,
-  step_3: 100,
+  step_3: 90,
+  step_4: 100,
 };
 
 export const ProgressPage = () => {
@@ -37,6 +39,11 @@ export const ProgressPage = () => {
     if (progress < values.step_3) {
       await fetchProfileService();
       return setProgress(values.step_3);
+    }
+
+    if (progress < values.step_4) {
+      await fetchImages();
+      return setProgress(values.step_4);
     }
 
     if (progress === 100) return router.push(Routes.auth.signup);
