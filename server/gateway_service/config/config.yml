@@ -4,7 +4,7 @@ app:
   domain: ${APP_DOMAIN}
   development: ${APP_DEVELOPMENT}
   secret: ${APP_SECRET}
-  unsplash: ${UNSPLASH_ACCESS_KEY}
+  unsplash: ${APP_UNSPLASH}
 
 db:
   database: ${DB_DATABASE}
