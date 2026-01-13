@@ -9,10 +9,10 @@ type results struct {
 }
 
 type urls struct {
-	Raw     string `json:"raw,omitempty"`
-	Full    string `json:"full,omitempty"`
-	Regular string `json:"regular,omitempty"`
-	Small   string `json:"small,omitempty"`
+	Raw     string `json:"raw"`
+	Full    string `json:"full"`
+	Regular string `json:"regular"`
+	Small   string `json:"small"`
 }
 type UnsplashResponse struct {
 	Url string `json:"url,omitempty"`

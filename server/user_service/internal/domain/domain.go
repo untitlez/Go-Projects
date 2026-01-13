@@ -19,14 +19,14 @@ type User struct {
 }
 
 type UserRequest struct {
-	ID               uuid.UUID `json:"id,omitempty"`
-	Username         string    `json:"username,omitempty"`
-	Password         string    `json:"password,omitempty"`
-	ResponsePassword string    `json:"response_password,omitempty"`
-	Role             string    `json:"role,omitempty"`
-	Limit            int       `json:"limit,omitempty"`
-	Offset           int       `json:"offset,omitempty"`
-	Search           string    `json:"search,omitempty"`
+	ID               uuid.UUID `json:"id"`
+	Username         string    `json:"username"`
+	Password         string    `json:"password"`
+	ResponsePassword string    `json:"response_password"`
+	Role             string    `json:"role"`
+	Limit            int       `json:"limit"`
+	Offset           int       `json:"offset"`
+	Search           string    `json:"search"`
 }
 
 type UserResponse struct {
@@ -38,9 +38,9 @@ type UserResponse struct {
 }
 
 type UserQuery struct {
-	Limit  string `json:"limit,omitempty"`
-	Offset string `json:"offset,omitempty"`
-	Search string `json:"search,omitempty"`
+	Limit  string `json:"limit"`
+	Offset string `json:"offset"`
+	Search string `json:"search"`
 }
 
 type UserService interface {

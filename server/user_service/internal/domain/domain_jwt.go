@@ -7,9 +7,9 @@ import (
 
 type JWTClaims struct {
 	jwt.RegisteredClaims `json:"registeredClaims"`
-	ID                   uuid.UUID `json:"id,omitempty"`
-	Username             string    `json:"username,omitempty"`
-	Email                string    `json:"email,omitempty"`
-	Role                 string    `json:"role,omitempty"`
-	Image                string    `json:"image,omitempty"`
+	ID                   uuid.UUID `json:"id"`
+	Username             string    `json:"username"`
+	Email                string    `json:"email"`
+	Role                 string    `json:"role"`
+	Image                string    `json:"image"`
 }
