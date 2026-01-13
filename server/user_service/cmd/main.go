@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/joho/godotenv"
 	"github.com/untitlez/E-Commerce.git/config"
 	"github.com/untitlez/E-Commerce.git/internal/client"
 	"github.com/untitlez/E-Commerce.git/internal/handler"
@@ -12,6 +13,7 @@ import (
 )
 
 func main() {
+	_ = godotenv.Load()
 	cfg := config.InitConfig()
 	db := config.InitDB(cfg)
 	app := fiber.New()

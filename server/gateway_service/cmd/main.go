@@ -7,6 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/requestid"
+	"github.com/joho/godotenv"
 	"github.com/untitlez/E-Commerce/server/gateway_service/config"
 	"github.com/untitlez/E-Commerce/server/gateway_service/internal/client"
 	"github.com/untitlez/E-Commerce/server/gateway_service/internal/handler"
@@ -14,6 +15,7 @@ import (
 )
 
 func main() {
+	_ = godotenv.Load()
 	cfg := config.InitConfig()
 
 	app := fiber.New()
@@ -33,7 +35,6 @@ func main() {
 	public.Post("/signout", gatewayHandler.SignOut)
 	public.Get("/users", gatewayHandler.GetAllUser)
 	public.Get("/images", gatewayHandler.GetImage)
-	public.Get("/host", gatewayHandler.GetHost)
 
 	private := app.Group("/", checkAuth)
 	private.Get("/session", gatewayHandler.Session)

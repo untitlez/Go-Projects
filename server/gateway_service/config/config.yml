@@ -1,6 +1,5 @@
 app:
   port: ${APP_PORT}
-  host: ${APP_HOST}
   domain: ${APP_DOMAIN}
   development: ${APP_DEVELOPMENT}
   secret: ${APP_SECRET}

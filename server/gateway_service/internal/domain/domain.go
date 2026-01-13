@@ -25,7 +25,3 @@ type JWTClaims struct {
 	Role                 string    `json:"role,omitempty"`
 	Image                string    `json:"image,omitempty"`
 }
-
-type Host interface {
-	GetHost(string) (*GatewayResponse, error)
-}

@@ -29,17 +29,3 @@ func (h *handler) GetImage(c *fiber.Ctx) error {
 
 	return h.responseSuccess(c, 200, "", res.Url)
 }
-
-func (h *handler) GetHost(c *fiber.Ctx) error {
-	path := c.Query("path")
-	res, err := h.client.Host.GetHost(path)
-	if err != nil {
-		return h.responseError(c, 400, err)
-	}
-
-	if !res.Success {
-		return h.responseError(c, 400, errors.New(res.Error))
-	}
-
-	return h.responseSuccess(c, 200, res.Message, res.Data)
-}

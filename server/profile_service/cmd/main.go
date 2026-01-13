@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/joho/godotenv"
 	"github.com/untitlez/E-Commerce.git/internal/client"
 	"github.com/untitlez/E-Commerce.git/internal/handler"
 	"github.com/untitlez/E-Commerce.git/internal/repository"
@@ -13,6 +14,7 @@ import (
 )
 
 func main() {
+	_ = godotenv.Load()
 	cfg := config.InitConfig()
 	db := config.InitDB(cfg)
 	app := fiber.New()
