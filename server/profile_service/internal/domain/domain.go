@@ -10,9 +10,9 @@ import (
 type Profile struct {
 	ID        uuid.UUID `gorm:"type:uuid;primaryKey"`
 	UserId    uuid.UUID `gorm:"type:uuid;unique"`
-	FullName  string
-	FirstName string `gorm:"index"`
-	LastName  string `gorm:"index"`
+	FullName  string    `gorm:"index"`
+	FirstName string
+	LastName  string
 	Gender    string `gorm:"index"`
 	BirthDate string
 	Email     string `gorm:"index"`
@@ -57,13 +57,12 @@ type ProfileResponse struct {
 }
 
 type ProfileQuery struct {
-	FirstName string `query:"first_name"`
-	LastName  string `query:"last_name"`
-	Gender    string `query:"gender"`
-	Email     string `query:"email"`
-	Address   string `query:"address"`
-	Limit     int    `query:"limit"`
-	Offset    int    `query:"offset"`
+	Name    string `query:"name"`
+	Gender  string `query:"gender"`
+	Email   string `query:"email"`
+	Address string `query:"address"`
+	Limit   int    `query:"limit"`
+	Offset  int    `query:"offset"`
 }
 
 type ProfileRepository interface {

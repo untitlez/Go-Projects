@@ -18,24 +18,20 @@ func (r *repository) FindAll(req *domain.ProfileQuery) ([]*domain.Profile, error
 	profile := []*domain.Profile{}
 	query := r.db.Order("created_at DESC")
 
-	if req.FirstName != "" {
-		query = query.Where("first_name LIKE ?", "%"+req.FirstName+"%")
-	}
-
-	if req.LastName != "" {
-		query = query.Where("last_name LIKE ?", "%"+req.LastName+"%")
+	if req.Name != "" {
+		query = query.Where("full_name ILIKE ?", "%"+req.Name+"%")
 	}
 
 	if req.Gender != "" {
-		query = query.Where("gender LIKE ?", "%"+req.Gender+"%")
+		query = query.Where("gender ILIKE ?", req.Gender+"%")
 	}
 
 	if req.Email != "" {
-		query = query.Where("email LIKE ?", "%"+req.Email+"%")
+		query = query.Where("email ILIKE ?", "%"+req.Email+"%")
 	}
 
 	if req.Address != "" {
-		query = query.Where("address LIKE ?", "%"+req.Address+"%")
+		query = query.Where("address ILIKE ?", "%"+req.Address+"%")
 	}
 
 	limit := req.Limit
