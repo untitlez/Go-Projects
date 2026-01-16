@@ -61,6 +61,7 @@ type ProfileQuery struct {
 	Gender  string `query:"gender"`
 	Email   string `query:"email"`
 	Address string `query:"address"`
+	Phone   string `query:"phone"`
 	Limit   int    `query:"limit"`
 	Offset  int    `query:"offset"`
 }

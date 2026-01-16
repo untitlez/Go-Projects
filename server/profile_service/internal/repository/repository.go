@@ -34,6 +34,10 @@ func (r *repository) FindAll(req *domain.ProfileQuery) ([]*domain.Profile, error
 		query = query.Where("address ILIKE ?", "%"+req.Address+"%")
 	}
 
+	if req.Phone != "" {
+		query = query.Where("phone ILIKE ?", "%"+req.Phone+"%")
+	}
+
 	limit := req.Limit
 	if limit <= 0 || limit > 100 {
 		limit = 50
