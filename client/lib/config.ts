@@ -16,12 +16,10 @@ export const Config = {
       IMAGES: "/images?query=",
     },
     USER: {
-      ALL_LIMIT: "/api/user?limit=",
       ALL: "/api/user",
       LIST: "/api/user/",
     },
     PROFILE: {
-      ALL_LIMIT: "/api/profile?limit=",
       ALL: "/api/profile",
       LIST: "/api/profile/",
       UPLOAD: "/api/profile/upload",

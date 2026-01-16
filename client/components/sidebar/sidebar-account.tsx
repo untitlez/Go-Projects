@@ -22,7 +22,7 @@ export const SidebarAccount = ({ session }: SidebarAccountProps) => {
               alt="Profile Image"
             />
           </Avatar>
-          <div className="grid flex-1 text-left text-sm leading-tight">
+          <div className="grid flex-1 text-left text-sm leading-tight capitalize">
             <span className="truncate font-medium">{session?.username}</span>
             <span className="truncate text-xs text-muted-foreground">
               {session?.email || session?.role}

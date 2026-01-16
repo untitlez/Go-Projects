@@ -4,11 +4,11 @@ import { Config } from "@/lib/config";
 
 import { getToken } from "./cookie";
 
-export const fetchAllProfile = async (limit?: string) => {
+export const fetchAllProfile = async (query?: string) => {
   try {
     const token = await getToken();
     const res = await fetch(
-      Config.API_URL + Config.SERVICES.PROFILE.ALL_LIMIT + limit,
+      Config.API_URL + Config.SERVICES.PROFILE.ALL + "?" + query,
       {
         headers: { Authorization: "Bearer " + token },
         cache: "no-store",

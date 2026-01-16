@@ -4,45 +4,13 @@ import { toast } from "sonner";
 import axios, { AxiosError } from "axios";
 
 import { Config } from "@/lib/config";
-import { profileUpdateType } from "@/validators/profile.validator";
 import { getToken } from "../use-server/cookie";
+import { profileUpdateType } from "@/validators/profile.validator";
 
 interface ApiErrorResponse {
   success: boolean;
   error: string;
 }
-
-//
-// GET ALL
-export const getProfiles = async (limit?: string) => {
-  try {
-    const { data } = await axios.get(
-      Config.API_URL + Config.SERVICES.PROFILE.ALL_LIMIT + limit,
-      { withCredentials: true }
-    );
-
-    if (!data.success) throw new Error(data.error);
-    return data.data;
-  } catch {
-    return null;
-  }
-};
-
-//
-// GET BY ID
-export const getProfile = async (id: string) => {
-  try {
-    const { data } = await axios.get(
-      Config.API_URL + Config.SERVICES.PROFILE.LIST + id,
-      { withCredentials: true }
-    );
-
-    if (!data.success) throw new Error(data.error);
-    return data.data;
-  } catch {
-    return null;
-  }
-};
 
 //
 // UPDATE

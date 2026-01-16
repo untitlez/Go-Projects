@@ -5,7 +5,6 @@ import { Trash2 } from "lucide-react";
 
 import { Routes } from "@/lib/routes";
 import { sessionType } from "@/validators/session.validator";
-import { userType } from "@/validators/user.validator";
 import { profileType } from "@/validators/profile.validator";
 
 import { Button } from "@/components/ui/button";
@@ -21,51 +20,42 @@ import {
 } from "@/components/ui/dialog";
 
 interface ProfileTableBodyProps {
-  allData?: {
-    user?: userType;
-    profile?: profileType;
-  }[];
+  allProfile?: profileType[];
   session?: sessionType;
+  index: number;
   onDelete: (value: string) => void;
   open: boolean;
   setOpen: (value: boolean) => void;
 }
 
 export const ProfileTableBody = ({
-  allData,
+  allProfile,
   session,
+  index,
   onDelete,
   open,
   setOpen,
 }: ProfileTableBodyProps) => {
   const router = useRouter();
+  const total = Number(allProfile?.length);
 
   return (
     <>
-      {allData?.map((item, i) => (
+      {allProfile?.map((item, i) => (
         <TableRow
           key={i}
-          className="cursor-pointer"
-          onClick={() =>
-            router.push(Routes.profile.list + item.profile?.user_id)
-          }
+          className="border-b cursor-pointer"
+          onClick={() => router.push(Routes.profile.list + item.user_id)}
         >
-          <TableCell>{allData.length - i}</TableCell>
-          <TableCell>{item.user?.username || "-"}</TableCell>
-          <TableCell>{item.profile?.full_name || "-"}</TableCell>
-          <TableCell>{item.profile?.gender || "-"}</TableCell>
+          <TableCell>{index + (total - i)}</TableCell>
+          <TableCell className="capitalize">{item.full_name || "-"}</TableCell>
+          <TableCell className="capitalize">{item.gender || "-"}</TableCell>
+          <TableCell>{item.email || "-"}</TableCell>
+          <TableCell>{item.address || "-"}</TableCell>
+          <TableCell>{item.phone || "-"}</TableCell>
           <TableCell>
-            {item.profile?.birth_date
-              ? new Date(item.profile?.birth_date).toLocaleDateString()
-              : "-"}
-          </TableCell>
-          <TableCell>{item.profile?.email || "-"}</TableCell>
-          <TableCell>{item.profile?.address || "-"}</TableCell>
-          <TableCell>{item.profile?.citizen_id || "-"}</TableCell>
-          <TableCell>{item.profile?.phone || "-"}</TableCell>
-          <TableCell>
-            {item.profile?.created_at
-              ? new Date(item.profile.created_at).toLocaleDateString()
+            {item.created_at
+              ? new Date(item.created_at).toLocaleDateString()
               : "-"}
           </TableCell>
 
@@ -76,7 +66,7 @@ export const ProfileTableBody = ({
                 <Button
                   variant="destructive"
                   className="btn"
-                  disabled={session?.id === item.profile?.user_id}
+                  disabled={session?.id === item.user_id}
                 >
                   <Trash2 className="size-4" />
                 </Button>
@@ -94,8 +84,8 @@ export const ProfileTableBody = ({
                     variant="destructive"
                     className="btn capitalize"
                     onClick={() => {
-                      if (!item.profile?.user_id) return;
-                      onDelete(item.profile?.user_id);
+                      if (!item.user_id) return;
+                      onDelete(item.user_id);
                       setOpen(!open);
                     }}
                   >

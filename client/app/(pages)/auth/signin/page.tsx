@@ -18,7 +18,12 @@ export default async function SigninPage() {
   return (
     <div className="w-full max-w-screen-lg grid lg:grid-cols-2 gap-8">
       <AuthSigninForm session={session} />
-      <AuthDetail users={users} limit={limit} session={session} profile={profile}/>
+      <AuthDetail
+        users={users}
+        limit={limit}
+        session={session}
+        profile={profile}
+      />
     </div>
   );
 }

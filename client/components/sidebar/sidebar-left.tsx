@@ -1,6 +1,6 @@
 "use client";
 
-import { LockKeyhole, User2 } from "lucide-react";
+import { LockKeyhole, NotebookPen, User2 } from "lucide-react";
 
 import { Routes } from "@/lib/routes";
 import { sessionType } from "@/validators/session.validator";

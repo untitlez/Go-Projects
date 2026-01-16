@@ -7,10 +7,13 @@ import { getToken } from "./cookie";
 export const fetchAllUser = async (limit?: string) => {
   try {
     const token = await getToken();
-    const res = await fetch(Config.API_URL + Config.SERVICES.USER.ALL_LIMIT + limit, {
-      headers: { Authorization: "Bearer " + token },
-      cache: "no-store",
-    });
+    const res = await fetch(
+      Config.API_URL + Config.SERVICES.USER.ALL + "?" + limit,
+      {
+        headers: { Authorization: "Bearer " + token },
+        cache: "no-store",
+      }
+    );
     const json = await res.json();
 
     if (!json.success) throw new Error(json.error);

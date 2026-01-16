@@ -35,19 +35,14 @@ export const ProfileDetail = ({ profile }: ProfileDetailProps) => {
   const router = useRouter();
 
   const values = {
-    full_name: profile?.full_name ,
-    gender: profile?.gender ,
-    email: profile?.email ,
-    address: profile?.address ,
-    phone: profile?.phone ,
-    citizen_id: profile?.citizen_id ,
-    birth_date: profile?.birth_date ,
-    position: profile?.position ,
-    salary: profile?.salary ,
-    employment_type: profile?.employment_type ,
-    status: profile?.status ,
-    years_of_service: profile?.years_of_service ,
-    start_date: profile?.start_date ,
+    full_name: profile?.full_name,
+    first_name: profile?.first_name,
+    last_name: profile?.last_name,
+    gender: profile?.gender,
+    email: profile?.email,
+    address: profile?.address,
+    phone: profile?.phone,
+    birth_date: profile?.birth_date,
   };
 
   const form = useForm<profileUpdateType>({
@@ -71,9 +66,26 @@ export const ProfileDetail = ({ profile }: ProfileDetailProps) => {
     {
       icon: IdCard,
       name: "full_name",
-      title: "fullName",
+      title: "full name",
       type: "text",
       description: profile?.full_name || "no data",
+      show: edit,
+    },
+    {
+      icon: IdCard,
+      name: "first_name",
+      title: "first name",
+      type: "text",
+      description: profile?.first_name || "no data",
+      show: !edit,
+    },
+    {
+      icon: IdCard,
+      name: "last_name",
+      title: "last name",
+      type: "text",
+      description: profile?.last_name || "no data",
+      show: !edit,
     },
     {
       icon: UserCircle,
@@ -85,7 +97,7 @@ export const ProfileDetail = ({ profile }: ProfileDetailProps) => {
     {
       icon: Cake,
       name: "birth_date",
-      title: "birthDate",
+      title: "birth date",
       type: "date",
       description: profile?.birth_date
         ? new Date(profile.birth_date).toLocaleDateString()
@@ -112,15 +124,7 @@ export const ProfileDetail = ({ profile }: ProfileDetailProps) => {
       type: "text",
       description: profile?.phone || "no data",
     },
-    {
-      icon: UserCircle,
-      name: "position",
-      title: "position",
-      type: "text",
-      description: profile?.position || "no data",
-    },
-  ] as const;
-
+  ];
 
   return (
     <Card className="w-full h-full overflow-hidden dark:bg-transparent">
@@ -128,7 +132,12 @@ export const ProfileDetail = ({ profile }: ProfileDetailProps) => {
         <FormProvider {...form}>
           <form className="flex flex-col gap-4 lg:gap-6">
             {items.map((item, i) => (
-              <Item key={i} variant="outline" className="bg-muted/50">
+              <Item
+                key={i}
+                variant="outline"
+                className="bg-muted/50"
+                hidden={item.show}
+              >
                 <ItemMedia variant="icon" className="text-primary">
                   {item.icon && <item.icon />}
                 </ItemMedia>
@@ -159,7 +168,7 @@ export const ProfileDetail = ({ profile }: ProfileDetailProps) => {
                     </div>
                   ) : (
                     <ItemDescription className="capitalize">
-                      {item.description}
+                      {item.description || ""}
                     </ItemDescription>
                   )}
                 </ItemContent>

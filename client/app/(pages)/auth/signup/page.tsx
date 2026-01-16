@@ -4,6 +4,8 @@ import { fetchImages } from "@/lib/use-server/fetch-images";
 
 import { AuthSignupForm } from "@/components/auth/auth-signup-form";
 
+export const dynamic = "force-dynamic";
+
 export default async function SignupPage() {
   const query = "sky";
   const image = await fetchImages(query);

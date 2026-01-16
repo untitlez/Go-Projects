@@ -20,7 +20,7 @@ export default async function DashboardLayout({
       <SidebarInset className="my-2 mx-4 overflow-x-hidden">
         <SidebarHeader id={session?.id} />
         <div className="flex flex-1 flex-col gap-4">
-          <div className="w-full rounded-xl px-8 py-16 justify-items-center">
+          <div className="w-full rounded-xl md:px-8 py-16 justify-items-center">
             {children}
           </div>
         </div>

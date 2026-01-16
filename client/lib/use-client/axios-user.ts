@@ -12,38 +12,6 @@ interface ApiErrorResponse {
 }
 
 //
-// GET ALL
-export const getUsers = async (limit?: string) => {
-  try {
-    const { data } = await axios.get(
-      Config.API_URL + Config.SERVICES.USER.ALL_LIMIT + limit,
-      { withCredentials: true }
-    );
-
-    if (!data.success) throw new Error(data.error);
-    return data.data;
-  } catch {
-    return null;
-  }
-};
-
-//
-// GET BY ID
-export const getUser = async (id: string) => {
-  try {
-    const { data } = await axios.get(
-      Config.API_URL + Config.SERVICES.USER.LIST + id,
-      { withCredentials: true }
-    );
-
-    if (!data.success) throw new Error(data.error);
-    return data.data;
-  } catch {
-    return null;
-  }
-};
-
-//
 // UPDATE
 export const updataUser = async (id: string, body: userUpdateType) => {
   try {

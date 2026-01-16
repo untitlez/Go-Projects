@@ -1,30 +1,45 @@
 import { fetchSession } from "@/lib/use-server/fetch-session";
-import { fetchAllUser } from "@/lib/use-server/fetch-user";
 import { fetchAllProfile } from "@/lib/use-server/fetch-profile";
-
-import LoadingPage from "../../loading";
+import { profileQueryType } from "@/validators/profile.validator";
 
 import { UnauthorizedPage } from "@/components/unauthorized-page";
+import { ProfileSearch } from "@/components/profile/profile-search";
 import { ProfileTable } from "@/components/profile/profile-table";
 
-export default async function ProfileAllAccountPage() {
-  const session = await fetchSession();
+export const dynamic = "force-dynamic";
 
+const initLimit = "10";
+
+interface ProfileAllAccountPageProps {
+  searchParams: Promise<profileQueryType>;
+}
+
+export default async function ProfileAllAccountPage({
+  searchParams,
+}: ProfileAllAccountPageProps) {
+  const params = await searchParams;
+  const queryParams = new URLSearchParams(params);
+
+  queryParams.set("limit", initLimit);
+
+  const session = await fetchSession();
   if (!session) return <UnauthorizedPage />;
 
-  const limit = "10";
-  const allUser = await fetchAllUser(limit);
-  const allProfile = await fetchAllProfile(limit);
+  const queryString = queryParams.toString();
+  const allProfile = await fetchAllProfile(queryString);
 
-  if (!allUser && !allProfile) return <LoadingPage />;
+  const pagination = {
+    limit: params.limit || "10",
+    offset: params.offset || "0",
+  };
 
   return (
-    <div className="w-full">
+    <div className="w-full space-y-6">
+      <ProfileSearch initLimit={initLimit} count={allProfile?.length} />
       <ProfileTable
         session={session}
-        allUser={allUser}
         allProfile={allProfile}
-        limit={limit}
+        pagination={pagination}
       />
     </div>
   );
