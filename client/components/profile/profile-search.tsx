@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { ChevronDownIcon, Search } from "lucide-react";
 
@@ -26,6 +26,7 @@ const filterItems = [
   { value: "gender" },
   { value: "email" },
   { value: "address" },
+  { value: "phone" },
 ];
 
 interface ProfileSearchProps {
@@ -36,6 +37,7 @@ interface ProfileSearchProps {
 export const ProfileSearch = ({ initLimit, count }: ProfileSearchProps) => {
   const [filter, setFilter] = useState("");
   const [keyword, setKeyword] = useState("");
+  const [onAlert, setOnAlert] = useState(false);
 
   const router = useRouter();
   const params = new URLSearchParams();
@@ -46,7 +48,7 @@ export const ProfileSearch = ({ initLimit, count }: ProfileSearchProps) => {
     params.set(!filter.trim() ? "name" : filter, keyword);
     params.set("limit", initLimit);
     router.replace("?" + params.toString());
-    toast.info(`found ${count || 0} results for "${keyword}"`);
+    setOnAlert(true);
   };
 
   const onClearParams = () => {
@@ -54,6 +56,17 @@ export const ProfileSearch = ({ initLimit, count }: ProfileSearchProps) => {
     setKeyword("");
     router.replace(Routes.profile.all);
   };
+
+  const isAlert = () =>
+    toast.info(`found ${count || 0} results for "${keyword}"`);
+
+  useEffect(() => {
+    if (onAlert) {
+      isAlert();
+      setOnAlert(false);
+      return;
+    }
+  }, [count]);
 
   return (
     <div className="flex items-center gap-2">
