@@ -14,7 +14,7 @@ import (
 )
 
 func main() {
-	_ = godotenv.Load()
+	godotenv.Load()
 	cfg := config.InitConfig()
 	db := config.InitDB(cfg)
 	app := fiber.New()

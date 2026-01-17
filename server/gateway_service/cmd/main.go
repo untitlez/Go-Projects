@@ -15,7 +15,7 @@ import (
 )
 
 func main() {
-	_ = godotenv.Load()
+	godotenv.Load()
 	cfg := config.InitConfig()
 
 	app := fiber.New()
@@ -23,25 +23,23 @@ func main() {
 	app.Use(compress.New())
 	app.Use(logger.New())
 
-	middleware.AuthCORS(app, cfg.App.Domain)
-	checkAuth := middleware.AuthMiddleware(cfg.App.Secret)
-
+	gatewayAuth := middleware.NewMiddleware(app, cfg)
 	gatewayClient := client.NewClient(cfg)
 	gatewayHandler := handler.NewHandler(gatewayClient, cfg.App.Development)
 
 	public := app.Group("/")
 	public.Post("/signup", gatewayHandler.SignUp)
-	public.Post("/signin", gatewayHandler.SignIn)
+	public.Post("/signin", gatewayAuth.AuthLimiter(5), gatewayHandler.SignIn)
 	public.Post("/signout", gatewayHandler.SignOut)
 	public.Get("/users", gatewayHandler.GetAllUser)
 	public.Get("/images", gatewayHandler.GetImage)
 
-	private := app.Group("/", checkAuth)
+	private := app.Group("/", gatewayAuth.AuthCookie())
 	private.Get("/session", gatewayHandler.Session)
 
-	internal := app.Group("/api", checkAuth)
-	internal.Use("/user", middleware.AuthProxy(cfg.Service.User, cfg.App.Domain))
-	internal.Use("/profile", middleware.AuthProxy(cfg.Service.Profile, cfg.App.Domain))
+	internal := app.Group("/api", gatewayAuth.AuthCookie())
+	internal.Use("/user", gatewayAuth.AuthProxy(cfg.Service.User))
+	internal.Use("/profile", gatewayAuth.AuthProxy(cfg.Service.Profile))
 
 	app.Listen(fmt.Sprintf(":%v", cfg.App.Port))
 }
