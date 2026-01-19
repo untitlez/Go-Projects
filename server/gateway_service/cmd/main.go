@@ -24,6 +24,9 @@ func main() {
 	app.Use(logger.New())
 
 	gatewayAuth := middleware.NewMiddleware(app, cfg)
+	gatewayAuth.AuthCORS()
+	gatewayAuth.AuthLimiter(100)
+
 	gatewayClient := client.NewClient(cfg)
 	gatewayHandler := handler.NewHandler(gatewayClient, cfg.App.Development)
 
