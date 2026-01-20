@@ -5,7 +5,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { SidebarHeader } from "@/components/sidebar/sidebar-header";
 import { SidebarLeft } from "@/components/sidebar/sidebar-left";
-// import { SidebarRight } from "@/components/sidebar/sidebar-right";
+import { SidebarRight } from "@/components/sidebar/sidebar-right";
 
 export default async function DashboardLayout({
   children,
@@ -13,19 +13,15 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }>) {
   const session = await fetchSession();
-  
+
   return (
     <SidebarProvider>
       <SidebarLeft session={session} />
-      <SidebarInset className="my-2 mx-4 overflow-x-hidden">
+      <SidebarInset className="overflow-x-hidden gap-6 p-2 sm:p-8 pt-6">
         <SidebarHeader id={session?.id} />
-        <div className="flex flex-1 flex-col gap-4">
-          <div className="w-full rounded-xl md:px-8 py-16 justify-items-center">
-            {children}
-          </div>
-        </div>
+        {children}
       </SidebarInset>
-      {/* <SidebarRight className="py-4 mr-2"/> */}
+      <SidebarRight />
       <CookieBanner />
     </SidebarProvider>
   );

@@ -9,9 +9,8 @@ import { updataUser } from "@/lib/use-client/axios-user";
 import { userType, userUpdateType } from "@/validators/user.validator";
 
 import { ProfileAccountSubmit } from "./profile-account-submit";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Field, FieldError } from "@/components/ui/field";
 import {
   Item,
@@ -32,8 +31,8 @@ export const ProfileAccount = ({ user }: ProfileAccountProps) => {
   const router = useRouter();
 
   const values = {
-    username: user?.username || "",
-    password: user?.password || "",
+    username: user?.username,
+    password: user?.password,
   };
 
   const form = useForm<userUpdateType>({
@@ -67,65 +66,63 @@ export const ProfileAccount = ({ user }: ProfileAccountProps) => {
   ] as const;
 
   return (
-    <Card className="w-full overflow-hidden dark:bg-transparent">
-      <CardContent className="h-full p-6 md:p-8 space-y-4">
-        <FormProvider {...form}>
-          <form className="flex flex-col gap-4 lg:gap-6">
-            {/* Input  */}
-            {items.map((item, i) => (
-              <Item key={i} variant="outline" className="bg-muted/50">
-                <ItemMedia variant="icon"  className="text-primary">
-                  {item.icon && <item.icon />}
-                </ItemMedia>
-                <ItemContent>
-                  <ItemTitle className="capitalize">{item.title}</ItemTitle>
-                  {edit ? (
-                    <Controller
-                      name={item.title}
-                      control={form.control}
-                      render={({ field, fieldState }) => (
-                        <Field data-invalid={fieldState.invalid}>
-                          <Input
-                            {...field}
-                            aria-invalid={fieldState.invalid}
-                            autoComplete="on"
-                            autoFocus
-                          />
-                          {fieldState.invalid && (
-                            <FieldError errors={[fieldState.error]} />
-                          )}
-                        </Field>
-                      )}
-                    />
-                  ) : (
-                    <ItemDescription className="capitalize">
-                      {item.description}
-                    </ItemDescription>
-                  )}
-                </ItemContent>
-              </Item>
-            ))}
-
-            {edit ? (
-              <ProfileAccountSubmit
-                onSubmit={onSubmit}
-                edit={edit}
-                setEdit={setEdit}
-              />
-            ) : (
-              // BUTTON EDIT
-              <Button
-                type="button"
-                variant="secondary"
-                className="btn capitalize"
-                onClick={() => setEdit(!edit)}
+    <Card className="h-full bg-muted dark:bg-card">
+      <FormProvider {...form}>
+        <form className="h-full flex flex-col px-4 gap-3 sm:px-6 sm:gap-4">
+          {/* Input  */}
+          {items.map((item, i) => (
+            <Item
+              key={i}
+              variant="outline"
+              className="bg-background rounded-xl"
+            >
+              <ItemMedia
+                variant="icon"
+                className="bg-primary/10 border-primary/50 text-primary dark:bg-muted dark:border-border"
               >
-                edit account
-              </Button>
-            )}
-          </form>
-        </FormProvider>
-      </CardContent>
+                {item.icon && <item.icon className="size-4" />}
+              </ItemMedia>
+              <ItemContent>
+                <ItemTitle className="dark:text-primary capitalize">
+                  {item.title}
+                </ItemTitle>
+                {edit ? (
+                  <Controller
+                    name={item.title}
+                    control={form.control}
+                    render={({ field, fieldState }) => (
+                      <Field data-invalid={fieldState.invalid}>
+                        <Input
+                          {...field}
+                          aria-invalid={fieldState.invalid}
+                          autoFocus={field.name === "username"}
+                          autoComplete="on"
+                        />
+                        {fieldState.invalid && (
+                          <FieldError errors={[fieldState.error]} />
+                        )}
+                      </Field>
+                    )}
+                  />
+                ) : (
+                  <ItemDescription className="capitalize">
+                    {item.description || ""}
+                  </ItemDescription>
+                )}
+              </ItemContent>
+            </Item>
+          ))}
+
+          {/* Submit */}
+          <div className="mt-6 sm:mt-8 xl:mt-auto">
+            <ProfileAccountSubmit
+              onSubmit={onSubmit}
+              edit={edit}
+              setEdit={setEdit}
+            />
+          </div>
+        </form>
+      </FormProvider>
     </Card>
   );
 };

@@ -10,27 +10,23 @@ import { authSignup } from "@/lib/use-client/axios-auth";
 import { authType } from "@/validators/account.validator";
 
 import { SignupFormInput } from "./auth-signup-form-input";
-import { AuthGoogleProvider } from "./auth-google-provider";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldSeparator,
-} from "@/components/ui/field";
+import { Field, FieldDescription, FieldGroup } from "@/components/ui/field";
 
 export const AuthSignupForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
+  const values = {
+    username: "",
+    password: "",
+    confirmPassword: "",
+  };
+
   const form = useForm<authType>({
-    defaultValues: {
-      username: "",
-      password: "",
-      confirmPassword: "",
-    },
+    defaultValues: values,
     mode: "onBlur",
   });
 
@@ -46,10 +42,10 @@ export const AuthSignupForm = () => {
   };
 
   return (
-    <Card className="overflow-hidden w-full h-full p-0 flex flex-col gap-6 lg:rounded-r-none z-10">
-      <CardContent>
+    <Card className="bg-transparent overflow-hidden border-none shadow-none grid place-items-center">
+      <CardContent className="w-full max-w-xl sm:px-0">
         <FormProvider {...form}>
-          <form className="p-6 md:p-8" onSubmit={form.handleSubmit(onSignup)}>
+          <form onSubmit={form.handleSubmit(onSignup)}>
             <FieldGroup>
               <div className="flex flex-col items-center gap-2 text-center">
                 <h1 className="text-2xl font-bold">Create your account</h1>
@@ -79,13 +75,13 @@ export const AuthSignupForm = () => {
                   showPassword={showPassword}
                   setShowPassword={setShowPassword}
                 />
+                <FieldDescription className="col-span-2">
+                  Must be at least 8 characters long.
+                </FieldDescription>
               </Field>
-              <FieldDescription className="-mt-4">
-                Must be at least 8 characters long.
-              </FieldDescription>
 
               {/* button submit */}
-              <Field>
+              <Field className="mt-7">
                 <Button
                   type="submit"
                   className="btn capitalize"
@@ -93,21 +89,13 @@ export const AuthSignupForm = () => {
                 >
                   {form.formState.isSubmitting ? <Spinner /> : "create account"}
                 </Button>
-              </Field>
 
-              {/* other signin */}
-              <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
-                Or continue with
-              </FieldSeparator>
-              <Field>
-                <AuthGoogleProvider />
+                {/* do signin */}
+                <FieldDescription className="text-center">
+                  Already have an account?{" "}
+                  <Link href={Routes.auth.signin}>Sign in</Link>
+                </FieldDescription>
               </Field>
-
-              {/* back to signin */}
-              <FieldDescription className="text-center">
-                Already have an account?{" "}
-                <Link href={Routes.auth.signin}>Sign in</Link>
-              </FieldDescription>
             </FieldGroup>
           </form>
         </FormProvider>

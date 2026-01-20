@@ -21,12 +21,14 @@ export default async function ProfileAllAccountPage({
   const queryParams = new URLSearchParams(params);
 
   queryParams.set("limit", initLimit);
-
-  const session = await fetchSession();
-  if (!session) return <UnauthorizedPage />;
-
   const queryString = queryParams.toString();
-  const allProfile = await fetchAllProfile(queryString);
+
+  const [session, allProfile] = await Promise.all([
+    fetchSession(),
+    fetchAllProfile(queryString),
+  ]);
+
+  if (!session) return <UnauthorizedPage />;
 
   const pagination = {
     limit: params.limit || "10",

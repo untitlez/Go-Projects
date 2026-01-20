@@ -29,54 +29,52 @@ export const SignupFormInput = ({
   const { control, formState } = useFormContext();
 
   return (
-    <>
-      <Controller
-        name={name}
-        control={control}
-        render={({ field, fieldState }) => (
-          <Field data-invalid={fieldState.invalid}>
-            <FieldLabel className="capitalize" htmlFor={field.name}>
-              {name}
-            </FieldLabel>
-            <InputGroup>
-              {showPassword ? (
-                <InputGroupInput
-                  {...field}
-                  id={field.name}
-                  aria-invalid={fieldState.invalid}
-                  type="text"
-                  placeholder={placeholder}
+    <Controller
+      name={name}
+      control={control}
+      render={({ field, fieldState }) => (
+        <Field data-invalid={fieldState.invalid}>
+          <FieldLabel className="capitalize" htmlFor={field.name}>
+            {name}
+          </FieldLabel>
+          <InputGroup>
+            {showPassword ? (
+              <InputGroupInput
+                {...field}
+                id={field.name}
+                aria-invalid={fieldState.invalid}
+                type="text"
+                placeholder={placeholder}
+                disabled={formState.isSubmitting}
+                required
+              />
+            ) : (
+              <InputGroupInput
+                {...field}
+                id={field.name}
+                aria-invalid={fieldState.invalid}
+                type={type}
+                placeholder={placeholder}
+                disabled={formState.isSubmitting}
+                required
+              />
+            )}
+            {type === "password" && (
+              <InputGroupAddon align="inline-end">
+                <InputGroupButton
+                  size="sm"
+                  className="cursor-pointer"
                   disabled={formState.isSubmitting}
-                  required
-                />
-              ) : (
-                <InputGroupInput
-                  {...field}
-                  id={field.name}
-                  aria-invalid={fieldState.invalid}
-                  type={type}
-                  placeholder={placeholder}
-                  disabled={formState.isSubmitting}
-                  required
-                />
-              )}
-              {type === "password" && (
-                <InputGroupAddon align="inline-end">
-                  <InputGroupButton
-                    size="sm"
-                    className="cursor-pointer"
-                    disabled={formState.isSubmitting}
-                    onClick={() => setShowPassword?.(!showPassword)}
-                  >
-                    {showPassword ? <Eye /> : <EyeClosed />}
-                  </InputGroupButton>
-                </InputGroupAddon>
-              )}
-            </InputGroup>
-            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-          </Field>
-        )}
-      />
-    </>
+                  onClick={() => setShowPassword?.(!showPassword)}
+                >
+                  {showPassword ? <Eye /> : <EyeClosed />}
+                </InputGroupButton>
+              </InputGroupAddon>
+            )}
+          </InputGroup>
+          {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+        </Field>
+      )}
+    />
   );
 };

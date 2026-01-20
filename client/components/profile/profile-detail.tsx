@@ -14,8 +14,7 @@ import { ProfileDetailTextarea } from "./profile-detail-textarea";
 import { ProfileDetailCalendar } from "./profile-detail-calendar";
 import { ProfileDetailSubmit } from "./profile-detail-submit";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import {
   Item,
   ItemContent,
@@ -127,77 +126,68 @@ export const ProfileDetail = ({ profile }: ProfileDetailProps) => {
   ];
 
   return (
-    <Card className="w-full h-full overflow-hidden dark:bg-transparent">
-      <CardContent className="p-6 md:p-8">
-        <FormProvider {...form}>
-          <form className="flex flex-col gap-4 lg:gap-6">
-            {items.map((item, i) => (
-              <Item
-                key={i}
-                variant="outline"
-                className="bg-muted/50"
-                hidden={item.show}
+    <Card className="h-full bg-muted dark:bg-card">
+      <FormProvider {...form}>
+        <form className="h-full flex flex-col px-4 gap-3 sm:px-6 sm:gap-4">
+          {/* Input  */}
+          {items.map((item, i) => (
+            <Item
+              key={i}
+              variant="outline"
+              className="bg-background rounded-xl"
+            >
+              <ItemMedia
+                variant="icon"
+                className="bg-primary/10 border-primary/50 text-primary dark:bg-muted dark:border-border"
               >
-                <ItemMedia variant="icon" className="text-primary">
-                  {item.icon && <item.icon />}
-                </ItemMedia>
-                <ItemContent>
-                  <ItemTitle className="capitalize">{item.title}</ItemTitle>
-                  {/* Input  */}
-                  {edit ? (
-                    <div>
-                      {/* Input Text  */}
-                      {item.type === "text" && (
-                        <ProfileDetailInput name={item.name} type={item.type} />
-                      )}
+                {item.icon && <item.icon className="size-4" />}
+              </ItemMedia>
+              <ItemContent>
+                <ItemTitle className="dark:text-primary capitalize">
+                  {item.title}
+                </ItemTitle>
+                {/* Input  */}
+                {edit ? (
+                  <div>
+                    {/* Input Text  */}
+                    {item.type === "text" && (
+                      <ProfileDetailInput name={item.name} type={item.type} />
+                    )}
 
-                      {/* Input Radio  */}
-                      {item.type === "radio" && (
-                        <ProfileDetailRadio name={item.name} />
-                      )}
+                    {/* Input Radio  */}
+                    {item.type === "radio" && (
+                      <ProfileDetailRadio name={item.name} />
+                    )}
 
-                      {/* Input Textarea  */}
-                      {item.type === "textarea" && (
-                        <ProfileDetailTextarea name={item.name} />
-                      )}
+                    {/* Input Textarea  */}
+                    {item.type === "textarea" && (
+                      <ProfileDetailTextarea name={item.name} />
+                    )}
 
-                      {/* Input Date  */}
-                      {item.type === "date" && (
-                        <ProfileDetailCalendar name={item.name} />
-                      )}
-                    </div>
-                  ) : (
-                    <ItemDescription className="capitalize">
-                      {item.description || ""}
-                    </ItemDescription>
-                  )}
-                </ItemContent>
-              </Item>
-            ))}
+                    {/* Input Date  */}
+                    {item.type === "date" && (
+                      <ProfileDetailCalendar name={item.name} />
+                    )}
+                  </div>
+                ) : (
+                  <ItemDescription className="capitalize">
+                    {item.description || ""}
+                  </ItemDescription>
+                )}
+              </ItemContent>
+            </Item>
+          ))}
 
-            {/* BUTTON SUBMIT */}
-            {edit ? (
-              <ProfileDetailSubmit
-                onSubmit={onSubmit}
-                edit={edit}
-                setEdit={setEdit}
-              />
-            ) : (
-              // BUTTON EDIT
-              <div className="flex flex-col gap-4">
-                <Button
-                  type="button"
-                  variant="secondary"
-                  className="btn capitalize border"
-                  onClick={() => setEdit(!edit)}
-                >
-                  edit profile
-                </Button>
-              </div>
-            )}
-          </form>
-        </FormProvider>
-      </CardContent>
+          {/* Submit */}
+          <div className="mt-6 sm:mt-8">
+            <ProfileDetailSubmit
+              onSubmit={onSubmit}
+              edit={edit}
+              setEdit={setEdit}
+            />
+          </div>
+        </form>
+      </FormProvider>
     </Card>
   );
 };

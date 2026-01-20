@@ -9,6 +9,10 @@ export const Routes = {
     list: "/profile/",
   },
 
+    document: {
+    api_doc: "/document/api",
+  },
+
   external: {
     hr_project: "https://hr-projects-lyart.vercel.app",
   },

@@ -1,28 +1,33 @@
 "use client";
 
-import { SidebarMenu, SidebarMenuButton } from "@/components/ui/sidebar";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { sessionType } from "@/validators/session.validator";
+import { profileType } from "@/validators/profile.validator";
 
-interface SidebarAccountProps {
+import { SidebarMenu, SidebarMenuButton } from "@/components/ui/sidebar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+interface SidebarLeftAccountProps {
   session?: sessionType;
+  profile?: profileType;
 }
 
-export const SidebarAccount = ({ session }: SidebarAccountProps) => {
+export const SidebarLeftAccount = ({
+  session,
+  profile,
+}: SidebarLeftAccountProps) => {
   return (
     <SidebarMenu className="pointer-events-none">
       {session ? (
-        <SidebarMenuButton
-          size="lg"
-          className="border bg-muted dark:bg-background"
-        >
-          <Avatar className="h-8 w-8 rounded-lg">
+        <SidebarMenuButton size="lg" className="bg-muted border">
+          <Avatar className="rounded-md">
             <AvatarImage
-              src={session?.image || "/shiba.jpg"}
+              src={profile?.image || session?.image}
               alt="Profile Image"
+              className="h-full w-full"
             />
+            <AvatarFallback className="bg-sidebar border rounded-md" />
           </Avatar>
-          <div className="grid flex-1 text-left text-sm leading-tight capitalize">
+          <div className="grid flex-1 text-left text-sm leading-tight capitalize text">
             <span className="truncate font-medium">{session?.username}</span>
             <span className="truncate text-xs text-muted-foreground">
               {session?.email || session?.role}
@@ -30,10 +35,7 @@ export const SidebarAccount = ({ session }: SidebarAccountProps) => {
           </div>
         </SidebarMenuButton>
       ) : (
-        <SidebarMenuButton
-          variant="outline"
-          className="border bg-muted dark:bg-background"
-        >
+        <SidebarMenuButton className="bg-muted border">
           <span className="flex flex-1 justify-center text-xs text-muted-foreground truncate">
             © {new Date().getFullYear()} - SUPANAT CHAISRI
           </span>

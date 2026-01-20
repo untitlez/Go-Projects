@@ -2,8 +2,6 @@ import { fetchSession } from "@/lib/use-server/fetch-session";
 import { fetchUserById } from "@/lib/use-server/fetch-user";
 import { fetchProfileById } from "@/lib/use-server/fetch-profile";
 
-import LoadingPage from "../../loading";
-
 import { UnauthorizedPage } from "@/components/unauthorized-page";
 import { ProfileImage } from "@/components/profile/profile-image";
 import { ProfileAccount } from "@/components/profile/profile-account";
@@ -15,20 +13,22 @@ interface ProfileIdPageProps {
 
 export default async function ProfileIdPage({ params }: ProfileIdPageProps) {
   const { id } = await params;
-  const session = await fetchSession();
+  const [session, user] = await Promise.all([
+    fetchSession(),
+    fetchUserById(id),
+  ]);
+  const profile = user ? await fetchProfileById(user?.id) : null;
 
   if (!session) return <UnauthorizedPage />;
 
-  const user = await fetchUserById(id);
-  const profile = await fetchProfileById(user?.id);
-
-  if (!user && !profile) return <LoadingPage />;
-
   return (
-    <div className="w-full max-w-screen-lg grid lg:grid-cols-2 gap-8 ">
-      <div className="space-y-8">
+    <div className="w-full grid lg:grid-cols-2 xl:grid-cols-3 gap-6">
+      <div className="lg:row-span-2 xl:row-auto">
         <ProfileImage profile={profile} />
+      </div>
+      <div className="flex flex-col gap-6">
         <ProfileAccount user={user} />
+        <div className="hidden xl:block bg-muted/50 rounded-xl h-full w-full" />
       </div>
       <ProfileDetail profile={profile} />
     </div>
