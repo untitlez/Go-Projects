@@ -28,7 +28,7 @@ interface ProfileDetailProps {
 }
 
 export const ProfileDetail = ({ profile }: ProfileDetailProps) => {
-  const [openDialog, setOpenDialog] = useState<boolean>();
+  const [openDialog, setOpenDialog] = useState(false);
   const [edit, setEdit] = useState(false);
 
   const router = useRouter();
@@ -133,6 +133,7 @@ export const ProfileDetail = ({ profile }: ProfileDetailProps) => {
           {items.map((item, i) => (
             <Item
               key={i}
+              hidden={item.show}
               variant="outline"
               className="bg-background rounded-xl"
             >
@@ -182,6 +183,8 @@ export const ProfileDetail = ({ profile }: ProfileDetailProps) => {
           <div className="mt-6 sm:mt-8">
             <ProfileDetailSubmit
               onSubmit={onSubmit}
+              openDialog={openDialog}
+              setOpenDialog={setOpenDialog}
               edit={edit}
               setEdit={setEdit}
             />

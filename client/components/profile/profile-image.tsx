@@ -89,7 +89,6 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
           src={image}
           alt="image"
           sizes="100vw"
-          loading="eager"
           className="object-cover brightness-75 dark:brightness-50"
           fill
         />
@@ -142,7 +141,7 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
               </Button>
             ) : (
               <Button
-              size="sm"
+                size="sm"
                 type="button"
                 variant={edit ? "destructive" : "secondary"}
                 className="btn capitalize"
