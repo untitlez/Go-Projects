@@ -28,11 +28,21 @@ func (s *service) UpdateProfile(id string, req *domain.ProfileRequest) error {
 		return errors.New("profile not found")
 	}
 
-	fullName := req.FirstName + " " + req.LastName
+	if req.FirstName != "" {
+		data.FirstName = req.FirstName
+	}
+
+	if req.LastName != "" {
+		data.LastName = req.LastName
+	}
+
+	fullName := data.FirstName + " " + data.LastName
 
 	body = &domain.ProfileRequest{
 		ID:        reqId,
 		FullName:  fullName,
+		FirstName: req.FirstName,
+		LastName:  req.LastName,
 		Gender:    req.Gender,
 		BirthDate: req.BirthDate,
 		Email:     req.Email,

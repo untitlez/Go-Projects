@@ -89,6 +89,8 @@ func (r *repository) Create(req *domain.ProfileRequest) error {
 func (r *repository) Update(req *domain.ProfileRequest) error {
 	profile := &domain.Profile{
 		FullName:  req.FullName,
+		FirstName: req.FirstName,
+		LastName:  req.LastName,
 		Gender:    req.Gender,
 		BirthDate: req.BirthDate,
 		Email:     req.Email,

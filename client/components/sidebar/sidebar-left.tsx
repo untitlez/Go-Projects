@@ -31,7 +31,7 @@ export const SidebarLeft = ({ session }: SidebarLeftProps) => {
   };
 
   useEffect(() => {
-    if (session?.id === profile?.user_id) return;
+    if (!session) return;
     getProfile();
   }, [session]);
 

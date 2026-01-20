@@ -6,6 +6,7 @@ import { UnauthorizedPage } from "@/components/unauthorized-page";
 import { ProfileImage } from "@/components/profile/profile-image";
 import { ProfileAccount } from "@/components/profile/profile-account";
 import { ProfileDetail } from "@/components/profile/profile-detail";
+import { ProfileSignout } from "@/components/profile/profile-signout";
 
 interface ProfileIdPageProps {
   params: Promise<{ id: string }>;
@@ -28,7 +29,7 @@ export default async function ProfileIdPage({ params }: ProfileIdPageProps) {
       </div>
       <div className="flex flex-col gap-6">
         <ProfileAccount user={user} />
-        <div className="hidden xl:block bg-muted/50 rounded-xl h-full w-full" />
+        <ProfileSignout />
       </div>
       <ProfileDetail profile={profile} />
     </div>

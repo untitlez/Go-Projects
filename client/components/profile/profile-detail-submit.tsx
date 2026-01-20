@@ -19,12 +19,16 @@ import {
 
 interface ProfileAccountSubmitProps {
   onSubmit: (value: profileUpdateType) => Promise<void>;
+  openDialog: boolean;
+  setOpenDialog: (value: boolean) => void;
   edit: boolean;
   setEdit: (value: boolean) => void;
 }
 
 export const ProfileDetailSubmit = ({
   onSubmit,
+  openDialog,
+  setOpenDialog,
   edit,
   setEdit,
 }: ProfileAccountSubmitProps) => {
@@ -32,7 +36,7 @@ export const ProfileDetailSubmit = ({
   const isSubmitting = form.formState.isSubmitting;
 
   return (
-    <Dialog>
+    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <div className="grid gap-3">
         <DialogTrigger asChild hidden={!form.formState.isDirty}>
           <Button type="button" variant="default" className="btn capitalize">
