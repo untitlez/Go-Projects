@@ -32,72 +32,57 @@ export const ProfileAccountSubmit = ({
   const isSubmitting = form.formState.isSubmitting;
 
   return (
-    <>
-      {form.formState.isDirty ? (
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button type="button" variant="default" className="btn capitalize">
-              save
-            </Button>
-          </DialogTrigger>
-          <Button
-            type="button"
-            variant="outline"
-            className="btn capitalize -mt-2"
-            onClick={() => {
-              setEdit(!edit);
-              form.reset();
-            }}
-          >
-            cancel
+    <Dialog>
+      <div className="grid gap-3">
+        <DialogTrigger asChild hidden={!form.formState.isDirty}>
+          <Button type="button" variant="default" className="btn capitalize">
+            save
           </Button>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle className="capitalize">save changes ?</DialogTitle>
-              <DialogDescription>
-                Review your changes before saving. These updates will modify
-                your profile information.
-              </DialogDescription>
-            </DialogHeader>
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="btn capitalize"
-                  disabled={isSubmitting}
-                >
-                  cancel
-                </Button>
-              </DialogClose>
-              <Button
-                type="button"
-                className="btn capitalize"
-                disabled={isSubmitting}
-                onClick={form.handleSubmit(onSubmit)}
-              >
-                {isSubmitting ? (
-                  <span className="flex items-center gap-2">
-                    <Spinner /> Saving...
-                  </span>
-                ) : (
-                  <span>save changes</span>
-                )}
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      ) : (
-        // BUTTON CANCEL EDIT
+        </DialogTrigger>
         <Button
           type="button"
-          variant="outline"
-          className="btn capitalize"
-          onClick={() => setEdit(!edit)}
+          variant="secondary"
+          className="bg-background border btn capitalize"
+          onClick={() => {
+            setEdit(!edit);
+            form.reset();
+          }}
         >
-          cancel
+          {edit ? "cancel" : "edit account"}
         </Button>
-      )}
-    </>
+      </div>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle className="capitalize">save changes ?</DialogTitle>
+          <DialogDescription>
+            Review your changes before saving. These updates will modify your
+            profile information.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button
+              type="button"
+              variant="outline"
+              className="btn capitalize"
+              disabled={isSubmitting}
+            >
+              cancel
+            </Button>
+          </DialogClose>
+          <Button
+            type="button"
+            className="btn capitalize"
+            disabled={isSubmitting}
+            onClick={form.handleSubmit(onSubmit)}
+          >
+            <span className="flex items-center gap-2">
+              <Spinner className={isSubmitting ? "block" : "hidden"} />
+              {isSubmitting ? "Saving..." : "save changes"}
+            </span>
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };

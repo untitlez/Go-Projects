@@ -16,23 +16,25 @@ import {
 
 interface AuthDetailExpireProps {
   session?: sessionType;
-  min: number;
-  sec: number;
+  minute: number;
+  seconds: number;
 }
 
 export const AuthDetailExpire = ({
   session,
-  min,
-  sec,
+  minute,
+  seconds,
 }: AuthDetailExpireProps) => {
   return (
-    <Item variant="outline" className="bg-muted/50">
+    <Item className="bg-background">
       <ItemMedia
         variant="icon"
         className={
-          min < 10
-            ? `${session ? "ItemMedia-error" : ""}`
-            : `${session ? "ItemMedia-success" : ""}`
+          session
+            ? minute < 10
+              ? session && "ItemMedia-error"
+              : session && "ItemMedia-success"
+            : "ItemMedia-primary"
         }
       >
         <BadgeCheck />
@@ -42,7 +44,7 @@ export const AuthDetailExpire = ({
         <ItemDescription>
           {session
             ? new Date(
-                session?.registeredClaims?.exp * 1000
+                session?.registeredClaims?.exp * 1000,
               ).toLocaleTimeString()
             : "N/A"}
         </ItemDescription>
@@ -51,10 +53,11 @@ export const AuthDetailExpire = ({
       <ItemActions>
         {session ? (
           <Button
-            variant={min < 10 ? "destructive" : "default"}
+            size="sm"
+            variant={minute < 10 ? "destructive" : "default"}
             className="pointer-events-none"
           >
-            {min}:{sec}
+            {minute}:{seconds}
           </Button>
         ) : (
           <Button size="icon" disabled>

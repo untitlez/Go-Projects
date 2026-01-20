@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { ChevronDownIcon, Search } from "lucide-react";
+import { ChevronDownIcon, Search, X } from "lucide-react";
 
 import { Routes } from "@/lib/routes";
 
@@ -72,6 +72,7 @@ export const ProfileSearch = ({ initLimit, count }: ProfileSearchProps) => {
     <div className="flex items-center gap-2">
       <InputGroup className="max-w-lg">
         <InputGroupInput
+          className="text-sm"
           placeholder="Type to search..."
           value={keyword}
           onKeyUp={(e) => {
@@ -117,11 +118,12 @@ export const ProfileSearch = ({ initLimit, count }: ProfileSearchProps) => {
       </InputGroup>
       <Button
         size="sm"
-        variant="link"
+        variant="ghost"
         className="text-xs cursor-pointer capitalize"
         onClick={onClearParams}
       >
         clear
+        <X className="size-4" />
       </Button>
     </div>
   );

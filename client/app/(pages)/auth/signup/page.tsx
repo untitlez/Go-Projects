@@ -7,20 +7,22 @@ import { AuthSignupForm } from "@/components/auth/auth-signup-form";
 export const dynamic = "force-dynamic";
 
 export default async function SignupPage() {
-  const query = "sky";
+  const query = "cloud";
   const image = await fetchImages(query);
 
   return (
-    <div className="relative w-full h-full overflow-hidden max-w-screen-lg grid lg:grid-cols-2 rounded-2xl bg-muted border">
+    <div className="w-full h-full overflow-hidden grid xl:grid-cols-2 gap-8">
+      <div className="hidden xl:grid relative w-full h-full rounded-3xl bg-muted">
+        <Image
+          src={image}
+          alt="Image"
+          fill
+          sizes="100vw"
+          loading="eager"
+          className="object-cover brightness-90 dark:brightness-75 rounded-3xl"
+        />
+      </div>
       <AuthSignupForm />
-      <Image
-        src={image}
-        alt="Image"
-        fill
-        sizes="100vw"
-        loading="eager"
-        className="hidden lg:grid object-cover brightness-75"
-      />
     </div>
   );
 }

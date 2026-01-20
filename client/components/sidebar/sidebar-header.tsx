@@ -20,7 +20,7 @@ export const SidebarHeader = ({ id }: SidebarHeaderProps) => {
   const pathName = usePathname().split("/").slice(1);
 
   return (
-    <header className="bg-background sticky top-0 h-14 shrink-0 flex items-center gap-2 z-50">
+    <header className="sticky top-0 shrink-0 flex items-center gap-2 z-10">
       {/* Left */}
       <div className="flex flex-1 items-center gap-2">
         <SidebarTrigger />
@@ -28,7 +28,7 @@ export const SidebarHeader = ({ id }: SidebarHeaderProps) => {
           orientation="vertical"
           className="mr-2 data-[orientation=vertical]:h-4"
         />
-        <Breadcrumb>
+        <Breadcrumb className="mr-3">
           <BreadcrumbList>
             {pathName.map((path, i) => (
               <div key={i} className="flex items-center gap-1.5 break-words">

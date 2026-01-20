@@ -16,6 +16,7 @@ import {
   Item,
   ItemActions,
   ItemContent,
+  ItemHeader,
   ItemTitle,
 } from "@/components/ui/item";
 
@@ -82,72 +83,72 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
   }, [profile]);
 
   return (
-    <Card className="w-full overflow-hidden dark:bg-transparent">
-      <CardContent className="grid gap-4 p-6 md:p-8">
-        <Item variant="outline" className="bg-muted/50">
-          <div className="relative overflow-hidden w-full aspect-square">
-            {loading ? (
-              <div className="h-full rounded-sm bg-muted grid place-content-center">
-                <div className="flex items-center gap-2 capitalize">
-                  <Loader className="size-5 animate-spin" />
-                  loading...
-                </div>
-              </div>
-            ) : (
+    <Card className="relative overflow-hidden h-full aspect-square lg:aspect-auto">
+      {image && (
+        <Image
+          src={image}
+          alt="image"
+          sizes="100vw"
+          loading="eager"
+          className="object-cover brightness-75 dark:brightness-50"
+          fill
+        />
+      )}
+
+      <CardContent className="absolute inset-0 grid place-items-center p-0 rounded-xl dark:text-primary backdrop-blur-xl">
+        <Item
+          variant="outline"
+          className="w-3/4 bg-muted/50 rounded-xl shadow-none"
+        >
+          <ItemHeader className="relative overflow-hidden aspect-square rounded-sm bg-muted">
+            {image ? (
               <Image
                 src={image || "/shiba.jpg"}
                 alt="image"
                 sizes="100vw"
                 loading="eager"
-                className="rounded-sm object-cover"
+                className="object-cover rounded-md brightness-90 dark:brightness-75"
                 fill
               />
+            ) : (
+              <div className="flex flex-1 justify-center items-center gap-2 capitalize">
+                <Loader className="size- animate-spin" />
+                loading...
+              </div>
             )}
-          </div>
-          <ItemContent>
-            <ItemTitle className="capitalize">profile image</ItemTitle>
+          </ItemHeader>
+          <ItemContent className="hidden sm:block capitalize">
+            <ItemTitle>profile image</ItemTitle>
           </ItemContent>
           <ItemActions>
-            {edit ? (
-              <div className="flex items-center gap-2">
-                {/* Input  */}
-                <Input
-                  type="file"
-                  className="max-w-60 capitalize cursor-pointer active:cursor-progress opacity-80 hover:opacity-100"
-                  disabled={isSubmitting}
-                  onChange={(e) => setFiles(e.target.files)}
-                />
+            {/* Input  */}
+            <Input
+              type="file"
+              className="bg-muted cursor-pointer click capitalize opacity-80 hover:opacity-100"
+              hidden={!edit}
+              disabled={isSubmitting}
+              onChange={(e) => setFiles(e.target.files)}
+            />
 
-                {/* Submit */}
-                {files == null ? (
-                  <Button
-                    type="button"
-                    size="icon"
-                    variant="destructive"
-                    className="btn capitalize"
-                    onClick={() => setEdit(!edit)}
-                  >
-                    <X />
-                  </Button>
-                ) : (
-                  <Button
-                    type="button"
-                    className="btn capitalize"
-                    disabled={isSubmitting}
-                    onClick={onSubmit}
-                  >
-                    {isSubmitting ? <Spinner /> : "save"}
-                  </Button>
-                )}
-              </div>
-            ) : (
+            {/* Button */}
+            {files ? (
               <Button
                 type="button"
-                variant="secondary"
-                className="btn capitalize border"
+                className="btn capitalize"
+                disabled={isSubmitting}
+                onClick={onSubmit}
+              >
+                {isSubmitting ? <Spinner /> : "save"}
+              </Button>
+            ) : (
+              <Button
+              size="sm"
+                type="button"
+                variant={edit ? "destructive" : "secondary"}
+                className="btn capitalize"
                 onClick={() => setEdit(!edit)}
               >
-                change image
+                {edit ? <X /> : "change image"}
               </Button>
             )}
           </ItemActions>

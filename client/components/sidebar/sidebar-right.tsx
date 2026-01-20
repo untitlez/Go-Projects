@@ -1,63 +1,43 @@
-// import * as React from "react";
-// import { Plus } from "lucide-react";
+"use client";
 
-// import { Calendars } from "@/components/calendars";
-// import { DatePicker } from "@/components/date-picker";
-// import {
-//   Sidebar,
-//   SidebarContent,
-//   SidebarFooter,
-//   SidebarHeader,
-//   SidebarMenu,
-//   SidebarMenuButton,
-//   SidebarMenuItem,
-//   SidebarSeparator,
-// } from "@/components/ui/sidebar";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Plus } from "lucide-react";
 
-// // This is sample data.
-// const data = {
-//   user: {
-//     name: "shadcn",
-//     email: "m@example.com",
-//     avatar: "/avatars/shadcn.jpg",
-//   },
-//   calendars: [
-//     {
-//       name: "My Calendars",
-//       items: ["Personal", "Work", "Family"],
-//     },
-//     {
-//       name: "Favorites",
-//       items: ["Holidays", "Birthdays"],
-//     },
-//     {
-//       name: "Other",
-//       items: ["Travel", "Reminders", "Deadlines"],
-//     },
-//   ],
-// };
+import { Routes } from "@/lib/routes";
 
-// export const SidebarRight = ({
-//   ...props
-// }: React.ComponentProps<typeof Sidebar>) => {
-//   return (
-//     <Sidebar side="right" variant="floating" {...props}>
-//       <SidebarHeader className="border-sidebar-border h-16 border-b"></SidebarHeader>
-//       <SidebarContent>
-//         <DatePicker />
-//         <SidebarSeparator className="mx-0" />
-//         <Calendars calendars={data.calendars} />
-//       </SidebarContent>
-//       <SidebarFooter>
-//         <SidebarMenu>
-//           <SidebarMenuItem>
-//             <SidebarMenuButton>
-//               <Plus />
-//               <span>New Calendar</span>
-//             </SidebarMenuButton>
-//           </SidebarMenuItem>
-//         </SidebarMenu>
-//       </SidebarFooter>
-//     </Sidebar>
-//   );
-// };
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
+
+export const SidebarRight = () => {
+  const pathname = usePathname();
+
+  const matchPaths = [Routes.document.api_doc];
+  const isMatch = matchPaths.includes(pathname);
+
+  return (
+    <>
+      {isMatch && (
+        <Sidebar side="right" variant="inset">
+          <SidebarContent></SidebarContent>
+          <SidebarFooter>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton>
+                  <Plus />
+                  <span>New Calendar</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarFooter>
+        </Sidebar>
+      )}
+    </>
+  );
+};

@@ -9,14 +9,18 @@ import { fetchProfileById } from "@/lib/use-server/fetch-profile";
 export const dynamic = "force-dynamic";
 
 export default async function SigninPage() {
-  const users = await fetchAccounts("50");
-  const limit = await fetchAccounts("3");
+  const [users, limit, session] = await Promise.all([
+    fetchAccounts("50"),
+    fetchAccounts("2"),
+    fetchSession(),
+  ]);
 
-  const session = await fetchSession();
-  const profile = await fetchProfileById(session?.id);
+  const profile = session ? await fetchProfileById(session?.id) : null;
 
   return (
-    <div className="w-full max-w-screen-lg grid lg:grid-cols-2 gap-8">
+    <div
+      className={`w-full h-full grid gap-6 ${session ? "place-items-center" : "xl:grid-cols-2 2xl:grid-cols-3"}`}
+    >
       <AuthSigninForm session={session} />
       <AuthDetail
         users={users}

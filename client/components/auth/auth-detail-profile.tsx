@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { BadgeCheck, User2 } from "lucide-react";
 
 import { sessionType } from "@/validators/session.validator";
+import { profileType } from "@/validators/profile.validator";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,7 +21,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { profileType } from "@/validators/profile.validator";
 
 interface AuthDetailProfileProps {
   session?: sessionType;
@@ -39,59 +38,52 @@ export const AuthDetailProfile = ({
   ];
 
   return (
-    <Item variant="outline" className="bg-muted/50">
-      {session ? (
-        <ItemMedia variant="image">
-          <Image
-            src={session?.image || profile?.image || "/shiba.jpg"}
-            alt="profile image"
-            className="bg-muted object-cover"
-            sizes="20vw"
-            fill
-          />
-        </ItemMedia>
-      ) : (
-        <ItemMedia variant="icon">
-          <BadgeCheck />
-        </ItemMedia>
-      )}
+    <Item className="bg-background">
+      <ItemMedia
+        variant="icon"
+        className={session ? "ItemMedia-success" : "ItemMedia-primary"}
+      >
+        <BadgeCheck />
+      </ItemMedia>
 
       <ItemContent>
-        <ItemTitle>{session?.username ?? "Username"}</ItemTitle>
-        <ItemDescription>{session?.role ?? "Role"}</ItemDescription>
+        <ItemTitle>{session?.username || "Username"}</ItemTitle>
+        <ItemDescription>{session?.role || "Role"}</ItemDescription>
       </ItemContent>
       <ItemActions>
-        {session ? (
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button className="cursor-pointer capitalize">view</Button>
-            </PopoverTrigger>
-            <PopoverContent side="left">
-              <div className="grid gap-2">
-                {items.map((item, i) => (
-                  <div
-                    key={i}
-                    className="grid grid-cols-3 items-center gap-4 capitalize"
-                  >
-                    <Label className="text-sm text-muted-foreground">
-                      {item.label}
-                    </Label>
-                    <Input
-                      readOnly
-                      tabIndex={-1}
-                      defaultValue={item.defaultValue || "-"}
-                      className="col-span-2"
-                    />
-                  </div>
-                ))}
-              </div>
-            </PopoverContent>
-          </Popover>
-        ) : (
-          <Button size="icon" disabled>
-            <User2 />
-          </Button>
-        )}
+        <Popover>
+          <PopoverTrigger asChild>
+            {session ? (
+              <Button size="sm" className="cursor-pointer capitalize">
+                view
+              </Button>
+            ) : (
+              <Button size="icon" disabled>
+                <User2 />
+              </Button>
+            )}
+          </PopoverTrigger>
+          <PopoverContent side="bottom">
+            <div className="grid gap-2">
+              {items.map((item, i) => (
+                <div
+                  key={i}
+                  className="grid grid-cols-3 items-center gap-4 capitalize"
+                >
+                  <Label className="text-sm text-muted-foreground">
+                    {item.label}
+                  </Label>
+                  <Input
+                    readOnly
+                    tabIndex={-1}
+                    defaultValue={item.defaultValue || "-"}
+                    className="col-span-2"
+                  />
+                </div>
+              ))}
+            </div>
+          </PopoverContent>
+        </Popover>
       </ItemActions>
     </Item>
   );
