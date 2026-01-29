@@ -55,7 +55,7 @@ func (c *google) GoogleCallBack(ctx context.Context, code string) (*domain.Googl
 		FirstName: payload.Claims["given_name"].(string),
 		LastName:  payload.Claims["family_name"].(string),
 		Image:     payload.Claims["picture"].(string),
-		Provider:  "GOOGLE",
+		Role:      "GUEST",
 	}
 
 	return response, nil

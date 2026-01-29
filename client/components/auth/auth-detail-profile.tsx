@@ -47,7 +47,9 @@ export const AuthDetailProfile = ({
       </ItemMedia>
 
       <ItemContent>
-        <ItemTitle>{session?.username || "Username"}</ItemTitle>
+        <ItemTitle>
+          {session?.username || session?.email || "Username"}
+        </ItemTitle>
         <ItemDescription>{session?.role || "Role"}</ItemDescription>
       </ItemContent>
       <ItemActions>
@@ -66,11 +68,8 @@ export const AuthDetailProfile = ({
           <PopoverContent side="bottom">
             <div className="grid gap-2">
               {items.map((item, i) => (
-                <div
-                  key={i}
-                  className="grid grid-cols-3 items-center gap-4 capitalize"
-                >
-                  <Label className="text-sm text-muted-foreground">
+                <div key={i} className="grid grid-cols-3 items-center gap-4">
+                  <Label className="text-sm text-muted-foreground capitalize">
                     {item.label}
                   </Label>
                   <Input

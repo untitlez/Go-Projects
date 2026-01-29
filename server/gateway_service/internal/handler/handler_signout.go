@@ -13,7 +13,7 @@ func (h *handler) SignOut(c *fiber.Ctx) error {
 		return h.responseError(c, 400, err)
 	}
 
-	if req.Provider != "GOOGLE" {
+	if req.Role != "GUEST" {
 		return h.responseSuccess(c, 200, "Sign Out Success", nil)
 	}
 
