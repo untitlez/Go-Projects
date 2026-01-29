@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"encoding/json"
+
 	"github.com/untitlez/E-Commerce.git/internal/domain"
 
 	"github.com/gofiber/fiber/v2"
@@ -16,10 +18,15 @@ func NewHandler(s domain.ProfileService) *handler {
 
 // Response Func
 func (h *handler) responseSuccess(c *fiber.Ctx, status int, message string, data interface{}) error {
+	rawJson, err := json.Marshal(data)
+	if err != nil {
+		return h.responseError(c, 404, err)
+	}
+
 	return c.Status(status).JSON(&domain.HandlerResponse{
 		Success: true,
 		Message: message,
-		Data:    data,
+		Data:    rawJson,
 	})
 }
 

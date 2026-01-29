@@ -9,10 +9,10 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func (s *service) SignIn(req *domain.UserRequest) (string, error) {
+func (s *service) SignIn(req *domain.UserRequest) (*domain.UserResponse, error) {
 	filter := req.Username == "" && req.Password == ""
 	if filter {
-		return "", errors.New("please enter your username and password.")
+		return nil, errors.New("please enter your username and password.")
 	}
 
 	body := &domain.UserRequest{
@@ -22,15 +22,15 @@ func (s *service) SignIn(req *domain.UserRequest) (string, error) {
 
 	data, err := s.repo.FindByUsername(body)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	if data == nil {
-		return "", errors.New("username not found")
+		return nil, errors.New("username not found")
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(data.Password), []byte(body.Password)); err != nil {
-		return "", errors.New("incorrect password")
+		return nil, errors.New("incorrect password")
 	}
 
 	claims := &domain.JWTClaims{
@@ -46,10 +46,12 @@ func (s *service) SignIn(req *domain.UserRequest) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	signed, err := token.SignedString([]byte(s.secretKey))
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	return signed, nil
+	response := &domain.UserResponse{SignedToken: signed}
+
+	return response, nil
 }
 
 func (s *service) SignUp(req *domain.UserRequest) error {
@@ -85,8 +87,8 @@ func (s *service) SignUp(req *domain.UserRequest) error {
 			return errors.New("fail to sign up")
 		}
 
-		body = &domain.UserRequest{ID: data.ID}
-		res, err := s.client.Profile.CreateProfile(body)
+		bodyClient := &domain.ProfileClientRequest{ID: data.ID}
+		res, err := s.client.Profile.CreateProfile(bodyClient)
 		if err != nil {
 			if err := s.repo.Delete(body); err != nil {
 				return err

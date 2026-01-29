@@ -11,12 +11,15 @@ import (
 // Update Profile
 func (h *handler) UpdateProfile(c *fiber.Ctx) error {
 	req := &domain.ProfileRequest{}
-	if errBodyParser := c.BodyParser(req); errBodyParser != nil {
-		return errBodyParser
+	if err := c.ParamsParser(&req.Params); err != nil {
+		return h.responseError(c, 400, err)
 	}
 
-	id := c.Params("id")
-	if err := h.sv.UpdateProfile(id, req); err != nil {
+	if err := c.BodyParser(req); err != nil {
+		return err
+	}
+
+	if err := h.sv.UpdateProfile(req); err != nil {
 		return h.responseError(c, 400, err)
 	}
 

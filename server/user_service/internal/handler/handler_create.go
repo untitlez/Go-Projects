@@ -16,7 +16,7 @@ func (h *handler) SignIn(c *fiber.Ctx) error {
 		return h.responseError(c, 400, err)
 	}
 
-	return h.responseSuccess(c, 200, "", res)
+	return h.responseSuccess(c, 200, "", res.SignedToken)
 }
 
 func (h *handler) SignUp(c *fiber.Ctx) error {

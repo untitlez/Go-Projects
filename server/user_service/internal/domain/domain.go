@@ -24,9 +24,8 @@ type UserRequest struct {
 	Password         string    `json:"password"`
 	ResponsePassword string    `json:"response_password"`
 	Role             string    `json:"role"`
-	Limit            int       `json:"limit"`
-	Offset           int       `json:"offset"`
-	Search           string    `json:"search"`
+	Params           UserRequestParams
+	Query            UserRequestQuery
 }
 
 type UserResponse struct {
@@ -35,21 +34,29 @@ type UserResponse struct {
 	ResponsePassword string    `json:"password,omitempty"`
 	CreatedAt        time.Time `json:"created_at,omitempty"`
 	UpdatedAt        time.Time `json:"updated_at,omitempty"`
+
+	SignedToken string `json:"signed_token,omitempty"`
 }
 
-type UserQuery struct {
-	Limit  string `json:"limit"`
-	Offset string `json:"offset"`
-	Search string `json:"search"`
+// OPTION
+type UserRequestParams struct {
+	ID uuid.UUID `params:"id"`
+}
+
+type UserRequestQuery struct {
+	Username string `query:"username,omitempty"`
+	Role     string `query:"role,omitempty"`
+	Limit    int    `query:"limit,omitempty"`
+	Offset   int    `query:"offset,omitempty"`
 }
 
 type UserService interface {
-	GetAllUser(string) ([]*UserResponse, error)
-	GetUser(string) (*UserResponse, error)
-	UpdateUser(string, *UserRequest) error
-	DeleteUser(string) error
-	SignIn(*UserRequest) (string, error)
+	GetAllUser(*UserRequest) ([]*UserResponse, error)
+	GetUser(*UserRequest) (*UserResponse, error)
+	UpdateUser(*UserRequest) error
+	DeleteUser(*UserRequest) error
 	SignUp(*UserRequest) error
+	SignIn(*UserRequest) (*UserResponse, error)
 }
 
 type UserRepository interface {

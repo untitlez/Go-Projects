@@ -6,8 +6,8 @@ import (
 )
 
 type GatewayRequest struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
+	ID       uuid.UUID `json:"id,omitempty"`
+	Provider string    `json:"provider,omitempty"`
 }
 
 type GatewayResponse struct {
@@ -20,8 +20,10 @@ type GatewayResponse struct {
 type JWTClaims struct {
 	jwt.RegisteredClaims `json:"registeredClaims"`
 	ID                   uuid.UUID `json:"id,omitempty"`
-	Username             string    `json:"username,omitempty"`
 	Email                string    `json:"email,omitempty"`
-	Role                 string    `json:"role,omitempty"`
+	FullName             string    `json:"full_name,omitempty"`
+	FirstName            string    `json:"first_name,omitempty"`
+	LastName             string    `json:"last_name,omitempty"`
 	Image                string    `json:"image,omitempty"`
+	Provider             string    `json:"provider,omitempty"`
 }

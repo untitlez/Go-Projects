@@ -19,7 +19,6 @@ type Profile struct {
 	Address   string `gorm:"index"`
 	Phone     string
 	Image     string
-
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt `gorm:"index"`
@@ -37,6 +36,8 @@ type ProfileRequest struct {
 	Address   string    `json:"address"`
 	Phone     string    `json:"phone"`
 	Image     string    `json:"image"`
+	Params    ProfileParams
+	Query     ProfileQuery
 }
 
 type ProfileResponse struct {
@@ -51,23 +52,27 @@ type ProfileResponse struct {
 	Address   string    `json:"address"`
 	Phone     string    `json:"phone"`
 	Image     string    `json:"image"`
-
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
+// OPTION
+type ProfileParams struct {
+	ID uuid.UUID `params:"id"`
+}
+
 type ProfileQuery struct {
-	Name    string `query:"name"`
-	Gender  string `query:"gender"`
-	Email   string `query:"email"`
-	Address string `query:"address"`
-	Phone   string `query:"phone"`
-	Limit   int    `query:"limit"`
-	Offset  int    `query:"offset"`
+	Name    string `query:"name,omitempty"`
+	Gender  string `query:"gender,omitempty"`
+	Email   string `query:"email,omitempty"`
+	Address string `query:"address,omitempty"`
+	Phone   string `query:"phone,omitempty"`
+	Limit   int    `query:"limit,omitempty"`
+	Offset  int    `query:"offset,omitempty"`
 }
 
 type ProfileRepository interface {
-	FindAll(*ProfileQuery) ([]*Profile, error)
+	FindAll(*ProfileRequest) ([]*Profile, error)
 	FindByID(*ProfileRequest) (*Profile, error)
 	FindByUserID(*ProfileRequest) (*Profile, error)
 	Create(*ProfileRequest) error
@@ -76,11 +81,11 @@ type ProfileRepository interface {
 }
 
 type ProfileService interface {
-	GetAllProfile(*ProfileQuery) ([]*ProfileResponse, error)
-	GetProfile(string) (*ProfileResponse, error)
-	UpdateProfile(string, *ProfileRequest) error
+	GetAllProfile(*ProfileRequest) ([]*ProfileResponse, error)
+	GetProfile(*ProfileRequest) (*ProfileResponse, error)
+	UpdateProfile(*ProfileRequest) error
 	CreateProfile(*ProfileRequest) error
-	DeleteProfile(string) error
+	DeleteProfile(*ProfileRequest) error
 
 	// Cloudinary Client
 	UploadImage(*CloudinaryRequest) (*CloudinaryResponse, error)

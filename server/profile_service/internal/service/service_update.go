@@ -8,17 +8,13 @@ import (
 	"github.com/google/uuid"
 )
 
-func (s *service) UpdateProfile(id string, req *domain.ProfileRequest) error {
-	if id == "" {
+func (s *service) UpdateProfile(req *domain.ProfileRequest) error {
+	paramsId := req.Params.ID
+	if paramsId == uuid.Nil {
 		return errors.New("invalid id")
 	}
 
-	reqId, err := uuid.Parse(id)
-	if err != nil {
-		return err
-	}
-
-	body := &domain.ProfileRequest{ID: reqId}
+	body := &domain.ProfileRequest{ID: paramsId}
 	data, err := s.repo.FindByID(body)
 	if err != nil {
 		return err
@@ -39,7 +35,7 @@ func (s *service) UpdateProfile(id string, req *domain.ProfileRequest) error {
 	fullName := data.FirstName + " " + data.LastName
 
 	body = &domain.ProfileRequest{
-		ID:        reqId,
+		ID:        data.ID,
 		FullName:  fullName,
 		FirstName: req.FirstName,
 		LastName:  req.LastName,

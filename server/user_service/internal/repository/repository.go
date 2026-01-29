@@ -17,8 +17,8 @@ func (r *repository) FindAll(req *domain.UserRequest) ([]*domain.User, error) {
 	user := []*domain.User{}
 	query := r.db.Order("created_at DESC")
 
-	if req.Limit > 0 {
-		query = query.Limit(req.Limit)
+	if req.Query.Limit != 0 {
+		query = query.Limit(req.Query.Limit)
 	}
 
 	if err := query.Find(&user).Error; err != nil {

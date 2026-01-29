@@ -8,7 +8,7 @@ import (
 	"github.com/untitlez/E-Commerce/server/gateway_service/internal/domain"
 )
 
-func (c *user) Signin(body *domain.GatewayRequest) (*domain.UserResponse, error) {
+func (c *user) Signin(body *domain.UserRequest) (*domain.UserResponse, error) {
 	bodyBytes, err := json.Marshal(body)
 	if err != nil {
 		return nil, err

@@ -14,36 +14,37 @@ func NewRepository(db *gorm.DB) *repository {
 	return &repository{db: db}
 }
 
-func (r *repository) FindAll(req *domain.ProfileQuery) ([]*domain.Profile, error) {
+func (r *repository) FindAll(req *domain.ProfileRequest) ([]*domain.Profile, error) {
 	profile := []*domain.Profile{}
 	query := r.db.Order("created_at DESC")
+	q := req.Query
 
-	if req.Name != "" {
-		query = query.Where("full_name ILIKE ?", "%"+req.Name+"%")
+	if q.Name != "" {
+		query = query.Where("full_name ILIKE ?", "%"+q.Name+"%")
 	}
 
-	if req.Gender != "" {
-		query = query.Where("gender ILIKE ?", req.Gender+"%")
+	if q.Gender != "" {
+		query = query.Where("gender ILIKE ?", q.Gender+"%")
 	}
 
-	if req.Email != "" {
-		query = query.Where("email ILIKE ?", "%"+req.Email+"%")
+	if q.Email != "" {
+		query = query.Where("email ILIKE ?", "%"+q.Email+"%")
 	}
 
-	if req.Address != "" {
-		query = query.Where("address ILIKE ?", "%"+req.Address+"%")
+	if q.Address != "" {
+		query = query.Where("address ILIKE ?", "%"+q.Address+"%")
 	}
 
-	if req.Phone != "" {
-		query = query.Where("phone ILIKE ?", "%"+req.Phone+"%")
+	if q.Phone != "" {
+		query = query.Where("phone ILIKE ?", "%"+q.Phone+"%")
 	}
 
-	limit := req.Limit
+	limit := q.Limit
 	if limit <= 0 || limit > 100 {
 		limit = 50
 	}
 
-	offset := req.Offset
+	offset := q.Offset
 	if offset < 0 {
 		offset = 0
 	}

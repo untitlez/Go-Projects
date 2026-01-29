@@ -9,17 +9,13 @@ import (
 )
 
 // Delete Profile
-func (s *service) DeleteProfile(id string) error {
-	if id == "" {
+func (s *service) DeleteProfile(req *domain.ProfileRequest) error {
+	paramsId := req.Params.ID
+	if paramsId == uuid.Nil {
 		return errors.New("invalid id")
 	}
 
-	reqId, err := uuid.Parse(id)
-	if err != nil {
-		return err
-	}
-
-	body := &domain.ProfileRequest{UserId: reqId}
+	body := &domain.ProfileRequest{UserId: paramsId}
 	data, err := s.repo.FindByUserID(body)
 	if err != nil {
 		return err

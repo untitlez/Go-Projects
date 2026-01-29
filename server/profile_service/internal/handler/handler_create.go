@@ -8,8 +8,8 @@ import (
 
 func (h *handler) CreateProfile(c *fiber.Ctx) error {
 	req := &domain.ProfileRequest{}
-	if errBodyParser := c.BodyParser(req); errBodyParser != nil {
-		return errBodyParser
+	if err := c.BodyParser(req); err != nil {
+		return err
 	}
 
 	if err := h.sv.CreateProfile(req); err != nil {

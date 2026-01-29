@@ -9,8 +9,8 @@ import (
 )
 
 // Get All
-func (s *service) GetAllProfile(query *domain.ProfileQuery) ([]*domain.ProfileResponse, error) {
-	data, err := s.repo.FindAll(query)
+func (s *service) GetAllProfile(req *domain.ProfileRequest) ([]*domain.ProfileResponse, error) {
+	data, err := s.repo.FindAll(req)
 	if err != nil {
 		return nil, errors.New("profile no data")
 	}
@@ -42,17 +42,13 @@ func (s *service) GetAllProfile(query *domain.ProfileQuery) ([]*domain.ProfileRe
 }
 
 // Get ID
-func (s *service) GetProfile(id string) (*domain.ProfileResponse, error) {
-	if id == "" {
+func (s *service) GetProfile(req *domain.ProfileRequest) (*domain.ProfileResponse, error) {
+	paramsId := req.Params.ID
+	if paramsId == uuid.Nil {
 		return nil, errors.New("invalid id")
 	}
 
-	reqId, err := uuid.Parse(id)
-	if err != nil {
-		return nil, err
-	}
-
-	body := &domain.ProfileRequest{UserId: reqId}
+	body := &domain.ProfileRequest{UserId: paramsId}
 	data, err := s.repo.FindByUserID(body)
 	if err != nil {
 		return nil, err

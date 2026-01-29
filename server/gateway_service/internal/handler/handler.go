@@ -2,6 +2,7 @@ package handler
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/untitlez/E-Commerce/server/gateway_service/config"
 	"github.com/untitlez/E-Commerce/server/gateway_service/internal/client"
 	"github.com/untitlez/E-Commerce/server/gateway_service/internal/domain"
 )
@@ -9,12 +10,16 @@ import (
 type handler struct {
 	client      *client.Client
 	development string
+	secret      string
+	domain      string
 }
 
-func NewHandler(client *client.Client, dev string) *handler {
+func NewHandler(client *client.Client, cfg *config.Config) *handler {
 	return &handler{
 		client:      client,
-		development: dev,
+		development: cfg.App.Development,
+		secret:      cfg.App.Secret,
+		domain:      cfg.App.Domain,
 	}
 }
 
