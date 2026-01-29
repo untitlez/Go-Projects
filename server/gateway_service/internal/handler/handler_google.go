@@ -53,6 +53,7 @@ func (h *handler) ProviderGoogleVerify(c *fiber.Ctx) error {
 	body := &domain.UserRequest{
 		Username: googleRes.Email,
 		Password: googleRes.Email,
+		Role:     googleRes.Role,
 	}
 
 	// CREATE USER
@@ -115,12 +116,13 @@ func (h *handler) ProviderGoogleVerify(c *fiber.Ctx) error {
 
 	claims = &domain.JWTClaims{
 		ID:        claims.ID,
+		Username:  googleRes.Email,
 		Email:     googleRes.Email,
 		FullName:  googleRes.FullName,
 		FirstName: googleRes.FirstName,
 		LastName:  googleRes.LastName,
 		Image:     googleRes.Image,
-		Provider:  googleRes.Provider,
+		Role:      googleRes.Role,
 		RegisteredClaims: jwt.RegisteredClaims{
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour)),

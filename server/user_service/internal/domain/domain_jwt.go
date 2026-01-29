@@ -10,6 +10,6 @@ type JWTClaims struct {
 	ID                   uuid.UUID `json:"id"`
 	Username             string    `json:"username"`
 	Email                string    `json:"email"`
-	Role                 string    `json:"role"`
 	Image                string    `json:"image"`
+	Role                 string    `json:"role"`
 }

@@ -14,7 +14,7 @@ type GoogleResponse struct {
 	FirstName string `json:"first_name,omitempty"`
 	LastName  string `json:"last_name,omitempty"`
 	Image     string `json:"image,omitempty"`
-	Provider  string `json:"provider,omitempty"`
+	Role      string `json:"role,omitempty"`
 }
 
 type GoogleClient interface {

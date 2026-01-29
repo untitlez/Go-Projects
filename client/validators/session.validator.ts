@@ -9,7 +9,6 @@ export const sessionSchema = z.object({
   last_name: z.string().optional(),
   image: z.string().optional(),
   role: z.string().optional(),
-  provider: z.string().optional(),
   registeredClaims: z.object({
     exp: z.number(),
     iss: z.number(),

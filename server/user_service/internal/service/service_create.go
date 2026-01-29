@@ -63,6 +63,7 @@ func (s *service) SignUp(req *domain.UserRequest) error {
 	body := &domain.UserRequest{
 		Username: req.Username,
 		Password: req.Password,
+		Role:     req.Role,
 	}
 
 	data, err := s.repo.FindByUsername(body)
@@ -80,6 +81,7 @@ func (s *service) SignUp(req *domain.UserRequest) error {
 			Username:         body.Username,
 			Password:         string(hashPassword),
 			ResponsePassword: body.Password,
+			Role:             body.Role,
 		}
 
 		data, err := s.repo.Create(body)

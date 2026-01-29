@@ -77,7 +77,7 @@ export const AuthDetailAccount = ({ props }: AuthDetailAccountProps) => {
   return (
     <Item className="bg-background">
       <ItemHeader className="capitalize font-medium text-sm text-muted-foreground dark:text-primary">
-        <p>sign in with guest</p>
+        <p>sign in with member</p>
         <Tooltip>
           <TooltipTrigger asChild>
             {session ? (

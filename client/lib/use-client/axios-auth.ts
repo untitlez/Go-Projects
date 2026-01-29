@@ -101,7 +101,7 @@ export const authSigninWithGoogleVerify = async (code: string) => {
 // SIGN OUT
 export const authSignout = async (body: sessionType) => {
   try {
-    const req = { id: body.id, provider: body.provider };
+    const req = { id: body.id, role: body.role };
     const { data } = await axios.post(
       Config.API_URL + Config.SERVICES.AUTH.SIGNOUT,
       req,
