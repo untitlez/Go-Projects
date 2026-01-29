@@ -1,10 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { LockKeyhole, NotebookPen, User2 } from "lucide-react";
 
 import { Routes } from "@/lib/routes";
-import { fetchProfileById } from "@/lib/use-server/fetch-profile";
 import { sessionType } from "@/validators/session.validator";
 import { profileType } from "@/validators/profile.validator";
 
@@ -19,22 +17,13 @@ import {
 } from "@/components/ui/sidebar";
 
 interface SidebarLeftProps {
-  session?: sessionType;
+  data?: {
+    session?: sessionType;
+    profile?: profileType;
+  };
 }
 
-export const SidebarLeft = ({ session }: SidebarLeftProps) => {
-  const [profile, setProfile] = useState<profileType>();
-
-  const getProfile = async () => {
-    const data = await fetchProfileById(session?.id);
-    setProfile(data);
-  };
-
-  useEffect(() => {
-    if (!session) return;
-    getProfile();
-  }, [session]);
-
+export const SidebarLeft = ({ data }: SidebarLeftProps) => {
   const menuItems = [
     {
       title: "authentication",
@@ -59,12 +48,12 @@ export const SidebarLeft = ({ session }: SidebarLeftProps) => {
         {
           title: "all account",
           url: Routes.profile.all,
-          require: session ? true : false,
+          require: data?.session ? true : false,
         },
         {
           title: "profile",
-          url: Routes.profile.list + session?.id,
-          require: session ? true : false,
+          url: Routes.profile.list + data?.session?.id,
+          require: data?.session ? true : false,
         },
       ],
     },
@@ -95,7 +84,7 @@ export const SidebarLeft = ({ session }: SidebarLeftProps) => {
         <SidebarLeftMenu menuItems={menuItems} />
       </SidebarContent>
       <SidebarFooter>
-        <SidebarLeftAccount session={session} profile={profile} />
+        <SidebarLeftAccount data={data} />
       </SidebarFooter>
     </Sidebar>
   );

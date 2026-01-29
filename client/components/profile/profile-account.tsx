@@ -21,14 +21,17 @@ import {
 } from "@/components/ui/item";
 
 interface ProfileAccountProps {
-  user?: userType;
+  data: {
+    user?: userType;
+  };
 }
 
-export const ProfileAccount = ({ user }: ProfileAccountProps) => {
+export const ProfileAccount = ({ data }: ProfileAccountProps) => {
   const [openDialog, setOpenDialog] = useState<boolean>();
   const [edit, setEdit] = useState(false);
 
   const router = useRouter();
+  const { user } = data;
 
   const values = {
     username: user?.username,

@@ -1,6 +1,7 @@
 export const Routes = {
   auth: {
     signin: "/auth/signin",
+    signin_verify: "/auth/signin/verify",
     signup: "/auth/signup",
   },
 

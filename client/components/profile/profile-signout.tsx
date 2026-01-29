@@ -2,20 +2,30 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { LogOut } from "lucide-react";
 
 import { authSignout } from "@/lib/use-client/axios-auth";
+import { sessionType } from "@/validators/session.validator";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { LogOut } from "lucide-react";
 
-export const ProfileSignout = () => {
+interface ProfileSignoutProps {
+  data: {
+    session?: sessionType;
+  };
+}
+
+export const ProfileSignout = ({ data }: ProfileSignoutProps) => {
   const [loading, setLoading] = useState(false);
+
   const router = useRouter();
+  const { session } = data;
 
   const onSignout = async () => {
+    if (!session) return;
     setLoading(true);
-    await authSignout();
+    await authSignout(session);
     setLoading(false);
     router.refresh();
   };
