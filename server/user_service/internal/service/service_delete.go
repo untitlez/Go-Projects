@@ -7,17 +7,13 @@ import (
 	"github.com/untitlez/E-Commerce.git/internal/domain"
 )
 
-func (s *service) DeleteUser(id string) error {
-	if id == "" {
+func (s *service) DeleteUser(req *domain.UserRequest) error {
+	paramsId := req.Params.ID
+	if paramsId == uuid.Nil {
 		return errors.New("invalid id")
 	}
 
-	reqId, err := uuid.Parse(id)
-	if err != nil {
-		return err
-	}
-
-	body := &domain.UserRequest{ID: reqId}
+	body := &domain.UserRequest{ID: paramsId}
 	data, err := s.repo.FindById(body)
 	if err != nil {
 		return err
@@ -27,7 +23,8 @@ func (s *service) DeleteUser(id string) error {
 		return errors.New("user not found")
 	}
 
-	res, err := s.client.Profile.DeleteProfile(body)
+	bodyClient := &domain.ProfileClientRequest{ID: paramsId}
+	res, err := s.client.Profile.DeleteProfile(bodyClient)
 	if err != nil {
 		return err
 	}

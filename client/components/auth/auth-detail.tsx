@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import { useStoreAuth } from "@/lib/use-client/store/store-auth";
 import { authSignout } from "@/lib/use-client/axios-auth";
-import { deleteUser } from "@/lib/use-client/axios-user";
+import { deleteUser, getAllUser } from "@/lib/use-client/axios-user";
 import { userType } from "@/validators/user.validator";
 import { sessionType } from "@/validators/session.validator";
 import { profileType } from "@/validators/profile.validator";
@@ -19,18 +19,13 @@ import { Item } from "@/components/ui/item";
 import { Card, CardContent } from "@/components/ui/card";
 
 interface AuthDetailProps {
-  users?: userType[];
   limit?: userType[];
   session?: sessionType;
   profile?: profileType;
 }
 
-export const AuthDetail = ({
-  users,
-  limit,
-  session,
-  profile,
-}: AuthDetailProps) => {
+export const AuthDetail = ({ limit, session, profile }: AuthDetailProps) => {
+  const [users, setUsers] = useState(limit);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
@@ -56,18 +51,25 @@ export const AuthDetail = ({
 
   const onDelete = async (id: string) => {
     await deleteUser(id);
-    if (id === session?.id) await authSignout();
+    if (id === session?.id) await authSignout(session);
     setOpen(false);
     setIsDelete(false);
     router.refresh();
   };
 
   const onSignout = async () => {
+    if (!session) return;
     setLoading(true);
-    await authSignout();
+    await authSignout(session);
     setLoading(false);
     setShowAccount(false);
     router.refresh();
+  };
+
+  const getMoreUsers = async () => {
+    const limitUsers = "50";
+    const data = await getAllUser(limitUsers);
+    setUsers(data);
   };
 
   useEffect(() => {
@@ -77,11 +79,20 @@ export const AuthDetail = ({
     return () => clearInterval(timer);
   }, [session]);
 
+  useEffect(() => {
+    if (!showAccount) return;
+    getMoreUsers();
+  }, [showAccount]);
+
+  useEffect(() => {
+    if (!session) return setUsers(limit);
+    getMoreUsers();
+  }, [session]);
+
   const authDetailAccountProps = {
     data: {
       session,
       users,
-      limit,
     },
     state: {
       open,
@@ -92,6 +103,7 @@ export const AuthDetail = ({
       setShowAccount,
     },
     func: {
+      getMoreUsers,
       onDelete,
       setAccount,
       within30Minute,

@@ -7,12 +7,15 @@ import (
 
 func (h *handler) UpdateUser(c *fiber.Ctx) error {
 	req := &domain.UserRequest{}
-	if errBodyParser := c.BodyParser(req); errBodyParser != nil {
-		return errBodyParser
+	if err := c.ParamsParser(&req.Params); err != nil {
+		return h.responseError(c, 400, err)
 	}
 
-	id := c.Params("id")
-	if err := h.sv.UpdateUser(id, req); err != nil {
+	if err := c.BodyParser(req); err != nil {
+		return err
+	}
+
+	if err := h.sv.UpdateUser(req); err != nil {
 		return h.responseError(c, 400, err)
 	}
 

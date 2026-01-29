@@ -6,9 +6,6 @@ import { create } from "zustand";
 export interface useStoreAuthType {
   account: authType;
   setAccount: (value: authType) => void;
-
-  authorization: boolean;
-  setAuthorization: (value: boolean) => void;
 }
 
 export const useStoreAuth = create<useStoreAuthType>((set) => ({
@@ -23,7 +20,4 @@ export const useStoreAuth = create<useStoreAuthType>((set) => ({
         password: value.password,
       },
     }),
-
-  authorization: false,
-  setAuthorization: (value) => set({ authorization: value }),
 }));

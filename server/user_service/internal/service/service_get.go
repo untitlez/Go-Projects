@@ -2,20 +2,33 @@ package service
 
 import (
 	"errors"
-	"strconv"
 
 	"github.com/google/uuid"
 	"github.com/untitlez/E-Commerce.git/internal/domain"
 )
 
 // Get All
-func (s *service) GetAllUser(req string) ([]*domain.UserResponse, error) {
-	query, err := s.getQuery(req)
-	if err != nil {
-		return nil, err
+func (s *service) GetAllUser(req *domain.UserRequest) ([]*domain.UserResponse, error) {
+	limit := req.Query.Limit
+	if limit < 0 {
+		return nil, errors.New("limit must be positive")
 	}
 
-	data, err := s.repo.FindAll(query)
+	if limit <= 0 || limit > 100 {
+		limit = 50
+	}
+
+	offset := req.Query.Offset
+	if offset < 0 {
+		offset = 0
+	}
+
+	q := req.Query
+	q.Limit = limit
+	q.Offset = offset
+	body := &domain.UserRequest{Query: q}
+
+	data, err := s.repo.FindAll(body)
 	if err != nil {
 		return nil, err
 	}
@@ -39,17 +52,13 @@ func (s *service) GetAllUser(req string) ([]*domain.UserResponse, error) {
 }
 
 // Get ID
-func (s *service) GetUser(id string) (*domain.UserResponse, error) {
-	if id == "" {
+func (s *service) GetUser(req *domain.UserRequest) (*domain.UserResponse, error) {
+	paramsId := req.Params.ID
+	if paramsId == uuid.Nil {
 		return nil, errors.New("invalid id")
 	}
 
-	reqId, err := uuid.Parse(id)
-	if err != nil {
-		return nil, err
-	}
-
-	body := &domain.UserRequest{ID: reqId}
+	body := &domain.UserRequest{ID: paramsId}
 	data, err := s.repo.FindById(body)
 	if err != nil {
 		return nil, err
@@ -68,24 +77,4 @@ func (s *service) GetUser(id string) (*domain.UserResponse, error) {
 	}
 
 	return response, nil
-}
-
-// Query Func
-func (s *service) getQuery(query string) (*domain.UserRequest, error) {
-	req := &domain.UserRequest{}
-
-	if query != "" {
-		limit, err := strconv.Atoi(query)
-		if err != nil {
-			return nil, err
-		}
-
-		if limit < 0 {
-			return nil, errors.New("limit must be positive")
-		}
-
-		req = &domain.UserRequest{Limit: limit}
-	}
-
-	return req, nil
 }

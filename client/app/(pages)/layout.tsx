@@ -1,4 +1,5 @@
 import { fetchSession } from "@/lib/use-server/fetch-session";
+import { fetchProfile } from "@/lib/use-server/fetch-profile";
 
 import { CookieBanner } from "@/components/cookie-banner";
 import { SidebarProvider } from "@/components/ui/sidebar";
@@ -13,10 +14,13 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }>) {
   const session = await fetchSession();
+  const profile = session ? await fetchProfile(session?.id) : null;
+
+  const data = { session, profile };
 
   return (
     <SidebarProvider>
-      <SidebarLeft session={session} />
+      <SidebarLeft data={data} />
       <SidebarInset className="overflow-x-hidden gap-6 p-2 sm:p-8 pt-6">
         <SidebarHeader id={session?.id} />
         {children}

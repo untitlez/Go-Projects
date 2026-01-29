@@ -8,7 +8,7 @@ import (
 	"github.com/untitlez/E-Commerce.git/internal/domain"
 )
 
-func (c *profile) CreateProfile(req *domain.UserRequest) (*domain.ProfileClientResponse, error) {
+func (c *profile) CreateProfile(req *domain.ProfileClientRequest) (*domain.ProfileClientResponse, error) {
 	bodyBytes, err := json.Marshal(req)
 	if err != nil {
 		return nil, err

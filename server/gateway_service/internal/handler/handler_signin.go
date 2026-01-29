@@ -8,7 +8,7 @@ import (
 )
 
 func (h *handler) SignIn(c *fiber.Ctx) error {
-	body := &domain.GatewayRequest{}
+	body := &domain.UserRequest{}
 	if errBodyParser := c.BodyParser(body); errBodyParser != nil {
 		return errBodyParser
 	}
@@ -22,14 +22,14 @@ func (h *handler) SignIn(c *fiber.Ctx) error {
 		return h.responseError(c, 400, errors.New(res.Error))
 	}
 
-	// c.Cookie(&fiber.Cookie{
-	// 	Name:     "Authorization",
-	// 	Value:    res.Data.(string),
-	// 	Expires:  time.Now().Add(time.Hour),
-	// 	Secure:   h.development == "production",
-	// 	HTTPOnly: true,
-	// 	SameSite: fiber.CookieSameSiteNoneMode,
-	// })
-
 	return h.responseSuccess(c, 200, "Sign In Success", res.Data)
 }
+
+// c.Cookie(&fiber.Cookie{
+// 	Name:     "Authorization",
+// 	Value:    res.Data.(string),
+// 	Expires:  time.Now().Add(time.Hour),
+// 	Secure:   h.development == "production",
+// 	HTTPOnly: true,
+// 	SameSite: fiber.CookieSameSiteNoneMode,
+// })

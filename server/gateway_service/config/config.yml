@@ -3,7 +3,6 @@ app:
   domain: ${APP_DOMAIN}
   development: ${APP_DEVELOPMENT}
   secret: ${APP_SECRET}
-  unsplash: ${APP_UNSPLASH}
 
 db:
   database: ${DB_DATABASE}
@@ -11,3 +10,8 @@ db:
 service:
   user: ${SERVICE_USER}
   profile: ${SERVICE_PROFILE}
+  unsplash: ${SERVICE_UNSPLASH}
+  google:
+    id: ${SERVICE_GOOGLE_ID}
+    secret: ${SERVICE_GOOGLE_SECRET}
+    redirect: ${SERVICE_GOOGLE_REDIRECT}

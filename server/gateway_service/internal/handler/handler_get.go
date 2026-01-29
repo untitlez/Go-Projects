@@ -4,11 +4,16 @@ import (
 	"errors"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/untitlez/E-Commerce/server/gateway_service/internal/domain"
 )
 
 func (h *handler) GetAllUser(c *fiber.Ctx) error {
-	limit := c.Query("limit")
-	res, err := h.client.User.GetAllUser(limit)
+	req := &domain.UserRequest{}
+	if err := c.QueryParser(req); err != nil {
+		return h.responseError(c, 400, err)
+	}
+
+	res, err := h.client.User.GetAllUser(req)
 	if err != nil {
 		return h.responseError(c, 400, err)
 	}

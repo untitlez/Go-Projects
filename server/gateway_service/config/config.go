@@ -13,7 +13,6 @@ type Config struct {
 		Domain      string
 		Development string
 		Secret      string
-		Unsplash    string
 	}
 
 	DB struct {
@@ -21,8 +20,14 @@ type Config struct {
 	}
 
 	Service struct {
-		User    string
-		Profile string
+		User     string
+		Profile  string
+		Unsplash string
+		Google   struct {
+			Id       string
+			Secret   string
+			Redirect string
+		}
 	}
 }
 

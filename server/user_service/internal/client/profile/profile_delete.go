@@ -7,8 +7,9 @@ import (
 	"github.com/untitlez/E-Commerce.git/internal/domain"
 )
 
-func (c *profile) DeleteProfile(req *domain.UserRequest) (*domain.ProfileClientResponse, error) {
-	clientReq, err := http.NewRequest("DELETE", c.url+"/"+req.ID.String(), nil)
+func (c *profile) DeleteProfile(req *domain.ProfileClientRequest) (*domain.ProfileClientResponse, error) {
+	id := req.ID.String()
+	clientReq, err := http.NewRequest("DELETE", c.url+"/"+id, nil)
 	if err != nil {
 		return nil, err
 	}

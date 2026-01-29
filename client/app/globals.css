@@ -122,11 +122,11 @@
 }
 
 .btn {
-  @apply hover:scale-105 active:scale-100 cursor-pointer;
+  @apply cursor-pointer active:scale-95 active:cursor-progress;
 }
 
-.btn-click {
-  @apply cursor-pointer active:scale-95;
+.btn-progress {
+  @apply cursor-pointer active:scale-95 active:cursor-progress;
 }
 
 .click {

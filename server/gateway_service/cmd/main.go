@@ -28,12 +28,16 @@ func main() {
 	gatewayAuth.AuthLimiter(100)
 
 	gatewayClient := client.NewClient(cfg)
-	gatewayHandler := handler.NewHandler(gatewayClient, cfg.App.Development)
+	gatewayHandler := handler.NewHandler(gatewayClient, cfg)
 
 	public := app.Group("/")
 	public.Post("/signup", gatewayHandler.SignUp)
 	public.Post("/signin", gatewayAuth.AuthLimiter(5), gatewayHandler.SignIn)
 	public.Post("/signout", gatewayHandler.SignOut)
+	public.Get("/signin/google", gatewayHandler.ProviderGoogle)
+	public.Get("/signin/google/callback", gatewayHandler.ProviderGoogleCallback)
+	public.Post("/signin/google/verify", gatewayHandler.ProviderGoogleVerify)
+
 	public.Get("/users", gatewayHandler.GetAllUser)
 	public.Get("/images", gatewayHandler.GetImage)
 

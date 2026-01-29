@@ -10,19 +10,18 @@ import { SidebarMenu, SidebarMenuButton } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface SidebarLeftAccountProps {
-  session?: sessionType;
-  profile?: profileType;
+  data?: {
+    session?: sessionType;
+    profile?: profileType;
+  };
 }
 
-export const SidebarLeftAccount = ({
-  session,
-  profile,
-}: SidebarLeftAccountProps) => {
-  const profilePath = Routes.profile.list + session?.id;
+export const SidebarLeftAccount = ({ data }: SidebarLeftAccountProps) => {
+  const profilePath = Routes.profile.list + data?.session?.id;
 
   return (
     <SidebarMenu>
-      {session ? (
+      {data?.session ? (
         <SidebarMenuButton
           asChild
           size="lg"
@@ -31,16 +30,20 @@ export const SidebarLeftAccount = ({
           <Link href={profilePath}>
             <Avatar className="rounded-md">
               <AvatarImage
-                src={profile?.image || session?.image}
+                src={data.profile?.image || data?.session?.image}
                 alt="Profile Image"
                 className="h-full w-full"
               />
               <AvatarFallback className="bg-sidebar border rounded-md" />
             </Avatar>
             <div className="grid flex-1 text-left text-sm leading-tight capitalize text">
-              <span className="truncate font-medium">{session?.username}</span>
+              <span className="truncate font-medium">
+                {data
+                  ? data?.session?.username || data?.profile?.full_name
+                  : "username"}
+              </span>
               <span className="truncate text-xs text-muted-foreground">
-                {session?.email || session?.role}
+                {data ? data?.session?.email || data?.profile?.email : "email"}
               </span>
             </div>
           </Link>

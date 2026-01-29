@@ -8,7 +8,7 @@ import (
 )
 
 func (h *handler) SignUp(c *fiber.Ctx) error {
-	body := &domain.GatewayRequest{}
+	body := &domain.UserRequest{}
 	if errBodyParser := c.BodyParser(body); errBodyParser != nil {
 		return errBodyParser
 	}
@@ -22,5 +22,5 @@ func (h *handler) SignUp(c *fiber.Ctx) error {
 		return h.responseError(c, 400, errors.New(res.Error))
 	}
 
-	return h.responseSuccess(c, 200, "Sign Up Success", nil)
+	return h.responseSuccess(c, 201, "Sign Up Success", nil)
 }

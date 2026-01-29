@@ -13,14 +13,16 @@ export default async function SignupPage() {
   return (
     <div className="w-full h-full overflow-hidden grid xl:grid-cols-2 gap-8">
       <div className="hidden xl:grid relative w-full h-full rounded-3xl bg-muted">
-        <Image
-          src={image}
-          alt="Image"
-          fill
-          sizes="100vw"
-          loading="eager"
-          className="object-cover brightness-90 dark:brightness-75 rounded-3xl"
-        />
+        {image && (
+          <Image
+            src={image}
+            alt="Image"
+            fill
+            sizes="100vw"
+            loading="eager"
+            className="object-cover brightness-90 dark:brightness-75 rounded-3xl"
+          />
+        )}
       </div>
       <AuthSignupForm />
     </div>

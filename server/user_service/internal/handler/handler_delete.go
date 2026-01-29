@@ -2,11 +2,16 @@ package handler
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/untitlez/E-Commerce.git/internal/domain"
 )
 
 func (h *handler) DeleteUser(c *fiber.Ctx) error {
-	id := c.Params("id")
-	if err := h.sv.DeleteUser(id); err != nil {
+	req := &domain.UserRequest{}
+	if err := c.ParamsParser(&req.Params); err != nil {
+		return h.responseError(c, 400, err)
+	}
+
+	if err := h.sv.DeleteUser(req); err != nil {
 		return h.responseError(c, 400, err)
 	}
 

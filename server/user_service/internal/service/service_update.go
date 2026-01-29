@@ -8,17 +8,13 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func (s *service) UpdateUser(id string, req *domain.UserRequest) error {
-	if id == "" {
+func (s *service) UpdateUser(req *domain.UserRequest) error {
+	paramsId := req.Params.ID
+	if paramsId == uuid.Nil {
 		return errors.New("invalid id")
 	}
 
-	reqId, err := uuid.Parse(id)
-	if err != nil {
-		return err
-	}
-
-	body := &domain.UserRequest{ID: reqId}
+	body := &domain.UserRequest{ID: paramsId}
 	data, err := s.repo.FindById(body)
 	if err != nil {
 		return err

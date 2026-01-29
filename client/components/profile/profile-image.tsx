@@ -19,12 +19,18 @@ import {
   ItemHeader,
   ItemTitle,
 } from "@/components/ui/item";
+import { sessionType } from "@/validators/session.validator";
 
 interface ProfileImageProps {
-  profile?: profileType;
+  data: {
+    session?: sessionType;
+    profile?: profileType;
+  };
 }
 
-export const ProfileImage = ({ profile }: ProfileImageProps) => {
+export const ProfileImage = ({ data }: ProfileImageProps) => {
+  const { session, profile } = data;
+
   const [files, setFiles] = useState<FileList | null>();
   const [image, setImage] = useState(profile?.image);
   const [edit, setEdit] = useState(false);
@@ -56,15 +62,15 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
 
   // STEP 3 : Update Data
   const onSubmit = async () => {
-    setIsSubmitting(true);
+    if (!profile?.id) return;
 
+    setIsSubmitting(true);
     const fileData = setFileData();
     const res = await uploadImage(fileData);
     const imageURL = res.data;
 
-    const id = String(profile?.id);
     const body = { image: imageURL };
-    await updateProfile(id, body);
+    await updateProfile(profile?.id, body);
     router.refresh();
 
     setIsSubmitting(false);
@@ -81,6 +87,12 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
     setImage(profile?.image);
     if (profile) return setLoading(false);
   }, [profile]);
+
+  useEffect(() => {
+    if (profile?.image) return;
+    setImage(session?.image);
+    if (session) return setLoading(false);
+  }, [session]);
 
   return (
     <Card className="relative overflow-hidden h-full aspect-square lg:aspect-auto">
@@ -102,7 +114,7 @@ export const ProfileImage = ({ profile }: ProfileImageProps) => {
           <ItemHeader className="relative overflow-hidden aspect-square rounded-sm bg-muted">
             {image ? (
               <Image
-                src={image || "/shiba.jpg"}
+                src={image || session?.image || "/shiba.jpg"}
                 alt="image"
                 sizes="100vw"
                 loading="eager"

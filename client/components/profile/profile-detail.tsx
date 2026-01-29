@@ -24,14 +24,17 @@ import {
 } from "@/components/ui/item";
 
 interface ProfileDetailProps {
-  profile?: profileType;
+  data: {
+    profile?: profileType;
+  };
 }
 
-export const ProfileDetail = ({ profile }: ProfileDetailProps) => {
+export const ProfileDetail = ({ data }: ProfileDetailProps) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [edit, setEdit] = useState(false);
 
   const router = useRouter();
+  const { profile } = data;
 
   const values = {
     full_name: profile?.full_name,
@@ -49,8 +52,8 @@ export const ProfileDetail = ({ profile }: ProfileDetailProps) => {
   });
 
   const onSubmit = async (formData: profileUpdateType) => {
-    const id = String(profile?.id);
-    await updateProfile(id, formData);
+    if (!profile?.id) return;
+    await updateProfile(profile?.id, formData);
     setOpenDialog(false);
     setEdit(false);
     router.refresh();
@@ -180,7 +183,7 @@ export const ProfileDetail = ({ profile }: ProfileDetailProps) => {
           ))}
 
           {/* Submit */}
-          <div className="mt-6 sm:mt-8">
+          <div className="mt-6 sm:mt-8 xl:mt-auto">
             <ProfileDetailSubmit
               onSubmit={onSubmit}
               openDialog={openDialog}

@@ -21,7 +21,7 @@ func main() {
 	userRepository := repository.NewRepository(db)
 	userClient := client.NewClient(cfg)
 
-	userService := service.NewService(userRepository, userClient, cfg.App.Secret)
+	userService := service.NewService(userRepository, userClient, cfg)
 	userHandler := handler.NewHandler(userService)
 
 	req := app.Group("/")

@@ -25,7 +25,7 @@ export const fetchAllProfile = async (query?: string) => {
   }
 };
 
-export const fetchProfileById = async (id?: string) => {
+export const fetchProfile = async (id?: string) => {
   try {
     const token = await getToken();
     const res = await fetch(
