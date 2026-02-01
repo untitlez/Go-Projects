@@ -2,21 +2,19 @@
 
 import { Config } from "@/lib/config";
 
+const query = "?limit=1";
+
 export const fetchGatewayService = async () => {
-  await fetch(Config.API_URL + Config.SERVICES.AUTH.ALL_LIMIT + 10);
+  await fetch(Config.CONNECT_SERVER.GATEWAY + query);
   return "OK";
 };
 
 export const fetchUserService = async () => {
-  await fetch(
-    Config.CONNECT_SERVER.USER + Config.SERVICES.USER + "?limit=" + 1
-  );
+  await fetch(Config.CONNECT_SERVER.USER + query);
   return "OK";
 };
 
 export const fetchProfileService = async () => {
-  await fetch(
-    Config.CONNECT_SERVER.PROFILE + Config.SERVICES.PROFILE + "?limit=" + 1
-  );
+  await fetch(Config.CONNECT_SERVER.PROFILE + query);
   return "OK";
 };

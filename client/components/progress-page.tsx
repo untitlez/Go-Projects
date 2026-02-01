@@ -26,7 +26,7 @@ export const ProgressPage = () => {
 
   const runProgress = async () => {
     if (progress < values.step_1) {
-      await fetchGatewayService();
+      await fetchProfileService();
       return setProgress(values.step_1);
     }
 
@@ -36,7 +36,7 @@ export const ProgressPage = () => {
     }
 
     if (progress < values.step_3) {
-      await fetchProfileService();
+      await fetchGatewayService();
       return setProgress(values.step_3);
     }
 

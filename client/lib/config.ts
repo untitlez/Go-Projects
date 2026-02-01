@@ -2,6 +2,7 @@ export const Config = {
   API_URL: process.env.NEXT_PUBLIC_DOMAIN!,
 
   CONNECT_SERVER: {
+    GATEWAY: process.env.NEXT_PUBLIC_GATEWAY!,
     USER: process.env.NEXT_PUBLIC_USER!,
     PROFILE: process.env.NEXT_PUBLIC_PROFILE!,
   },
